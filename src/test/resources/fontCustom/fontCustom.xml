@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="https://github.com/hongjinqiu/nanhu-print-java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <style>
+    </style>
+    <macros>
+    </macros>
+
+    <body pageSizePdf="A4" rotate="false" paddingLeft="50px"
+          paddingRight="50px" paddingTop="30px" paddingBottom="30px" width="685px" height="840px">
+        <table cellspacing="0" cellpadding="0" width="100%" tableLayout="fixed">
+            <thead>
+                <tr>
+                    <td width="100%">
+                        <div fontFamily="arial" explain="true">
+                            <span value="this is thead firstPage" />
+                            <span value="js:data.firstPage" />
+                        </div>
+                        <div fontFamily="times">
+                            <span value="this is thead firstPage" />
+                            <span value="js:data.firstPage" />
+                        </div>
+                        <div fontFamily="calibri">
+                            <span value="this is thead firstPage" />
+                            <span value="js:data.firstPage" />
+                        </div>
+                        <div fontFamily="century">
+                            <span value="this is thead firstPage" />
+                            <span value="js:data.firstPage" />
+                        </div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td width="100%" fontFamily="calibri">
+                        <div fontSize="20" textAlign="center">
+                            <span value="I am tbody"/>
+                        </div>
+                    </td>
+                </tr>
+                <forEach var="item" itemsJs="data.contentList" varStatus="index">
+                    <tr fontFamily="abc">
+                        <td width="100%">
+                            <div paddingTop="20">
+                                <span value="js:item"/>
+                            </div>
+                        </td>
+                    </tr>
+                </forEach>
+            </tbody>
+            <tloop>
+                <tr>
+                    <td width="100%">
+                        <span value="1" visibility="hidden"/>
+                        <span value=" "/>
+                    </td>
+                </tr>
+            </tloop>
+        </table>
+    </body>
+</html>

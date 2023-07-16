@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="https://github.com/hongjinqiu/nanhu-print-java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <style>
+    </style>
+    <macros>
+    </macros>
+
+    <body pageSizePdf="A4" rotate="false" paddingLeft="50px"
+          paddingRight="50px" paddingTop="30px" paddingBottom="30px" width="685px" height="840px">
+        <params>
+            <param name="waterMark" value="default" />
+            <param name="waterMarkText" value="I am water mark text" />
+            <param name="waterMarkOpacity" value="1" />
+            <param name="waterMarkTextFontSize" value="14" />
+            <param name="waterMarkOffsetX" value="0" />
+            <param name="waterMarkOffsetY" value="0" />
+            <param name="waterMarkRotation" value="45" />
+
+            <!--
+            <param name="waterMarkImage" value="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" />
+            <param name="waterMarkImageWidth" value="200" />
+            <param name="waterMarkImageHeight" value="200" />
+            -->
+            <param name="waterMarkLayer" value="under" />
+        </params>
+        <table cellspacing="0" cellpadding="0" width="100%" tableLayout="fixed">
+            <thead>
+                <tr>
+                    <td width="100%">
+                        <span value="this is thead firstPage" />
+                        <span value="js:data.firstPage" />
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td width="100%">
+                        <div fontSize="20" textAlign="center">
+                            <span value="I am tbody"/>
+                        </div>
+                    </td>
+                </tr>
+                <forEach var="item" itemsJs="data.contentList" varStatus="index">
+                    <tr>
+                        <td width="100%">
+                            <div paddingTop="20">
+                                <span value="js:item"/>
+                            </div>
+                        </td>
+                    </tr>
+                </forEach>
+            </tbody>
+            <tloop>
+                <tr>
+                    <td width="100%">
+                        <span value="1" visibility="hidden"/>
+                        <span value=" "/>
+                    </td>
+                </tr>
+            </tloop>
+            <tbottom>
+                <tr>
+                    <td>
+                        <params>
+                            <param name="waterMark" value="default" />
+                            <param name="waterMarkOpacity" value="0.9" />
+                            <param name="waterMarkOffsetX" value="0" />
+                            <param name="waterMarkOffsetY" value="0" />
+                            <param name="waterMarkImage" value="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" />
+                            <param name="waterMarkImageWidth" value="200" />
+                            <param name="waterMarkImageHeight" value="200" />
+                            <param name="waterMarkRotation" value="45" />
+                            <param name="waterMarkLayer" value="under" />
+                        </params>
+                        <span value="only show on last page wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww" />
+                        <span value="js:data.lastPageTbottom" />
+                    </td>
+                </tr>
+            </tbottom>
+        </table>
+    </body>
+</html>
