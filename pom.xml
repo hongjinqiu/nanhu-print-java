@@ -6,7 +6,7 @@
 
     <groupId>io.github.hongjinqiu</groupId>
     <artifactId>nanhu-print-java</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <name>${project.artifactId}</name>
     <description>nanhu-print-java is a custom java pdf printing framework, user can configure xml format files, and then call the framework api to generate pdf files.
