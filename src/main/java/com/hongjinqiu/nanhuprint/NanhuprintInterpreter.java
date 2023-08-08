@@ -4,7 +4,11 @@ import com.hongjinqiu.nanhuprint.eval.EvalFactory;
 import com.hongjinqiu.nanhuprint.eval.HtmlEval;
 import com.hongjinqiu.nanhuprint.eval.IEval;
 import com.hongjinqiu.nanhuprint.model.Html;
+import com.hongjinqiu.pdfservice.format.AmtFormat;
+import com.hongjinqiu.pdfservice.format.NumFormat;
+import com.hongjinqiu.pdfservice.format.UnitPriceFormat;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;
@@ -13,6 +17,7 @@ import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -171,6 +176,7 @@ public class NanhuprintInterpreter {
 	 */
 	public void interpreterString(String filePath, String metaString, Map<String, Object> env){
 		long begin = System.currentTimeMillis();
+		setFormatFunc(env);
 		String xmlString = unmarshallerAndRunDynamicElement(metaString, env);
 		unmarshallerAndRunToPdf(filePath, xmlString, env);
 		long end = System.currentTimeMillis();
@@ -184,12 +190,37 @@ public class NanhuprintInterpreter {
 	 */
 	public byte[] interpreterString(String metaString, Map<String, Object> env){
 		long begin = System.currentTimeMillis();
+		setFormatFunc(env);
 		String xmlString = unmarshallerAndRunDynamicElement(metaString, env);
 		logger.info("xmlString is:" + xmlString);
 		byte[] result = unmarshallerAndRunToPdf(xmlString, env);
 		long end = System.currentTimeMillis();
 		System.out.println("time spend of interpreterString return byte is:" + (end - begin));
 		return result;
+	}
+
+	/**
+	 * 设置格式化字符串
+	 * @param env
+	 */
+	private void setFormatFunc(Map<String, Object> env) {
+		Map<String, Object> formatFunc = new HashMap<>();
+		{
+			String amountPrecision = (String) env.get("amountPrecision");
+			Integer amount = StringUtils.isBlank(amountPrecision) ? 2 : Integer.valueOf(amountPrecision);
+			formatFunc.put(NanhuprintConstant.FORMAT_FUNC_VALUE_AMT, new AmtFormat(amount));
+		}
+		{
+			String numberPrecision = (String) env.get("numberPrecision");
+			Integer number = StringUtils.isBlank(numberPrecision) ? 0 : Integer.valueOf(numberPrecision);
+			formatFunc.put(NanhuprintConstant.FORMAT_FUNC_VALUE_NUM, new NumFormat(number));
+		}
+		{
+			String unitPricePrecision = (String) env.get("unitPricePrecision");
+			Integer unitPrice = StringUtils.isBlank(unitPricePrecision) ? 2 : Integer.valueOf(unitPricePrecision);
+			formatFunc.put(NanhuprintConstant.FORMAT_FUNC_VALUE_UNIT_PRICE, new UnitPriceFormat(unitPrice));
+		}
+		env.put("formatFunc", formatFunc);
 	}
 
 	//public static void main(String[] args) {
