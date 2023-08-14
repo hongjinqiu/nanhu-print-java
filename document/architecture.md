@@ -1,4 +1,4 @@
-# 1. Architecture,
+# 1. Architecture
 By writing the configuration file in XML format constrained by nanhu-print-java/src/main/resources/xsd/nanhuprint.xsd and combining their own business data,
 then call the API of the Nanhu-print-java framework to generate a PDF file.
 
