@@ -6,6 +6,9 @@ The configuration file in XML format is the core of the Nanhu-print-java framewo
 The Nanhu-print-java framework defines the following components to parse XML and generate PDF, and the call entry class is: NanhuprintInterpreter.<br>
 
 The overall flow of the code is as follows:
+
+![whole_code_flow_en](https://github.com/hongjinqiu/nanhu-print-java/assets/1661806/7a50f5f5-bc06-4af3-9877-9ff2082aded3)
+
  
 ## 1.1. XML configuration to java object mapping component
 The Nanhu-print-java framework defines the nanhuprint.xsd file, and then generates a bunch of Java Bean entity classes through the xjc command line tool of jaxb to complete the mapping from XML files to Java Beans.
@@ -33,7 +36,8 @@ After dynamic parsing, it becomes:
 The interface implementation classes of IEval such as TableEval and DivEval in the framework are XML -> PDF conversion and analysis components.
 
 The conversion process is:
- 
+
+<img width="411" alt="xml_to_pdf" src="https://github.com/hongjinqiu/nanhu-print-java/assets/1661806/11fc0bd0-f898-4ef4-81ae-4768b20ed92d">
 
 ## 1.4. Expression Parser
 This line configures `<if testJs="!(printConfigTemplate.remarkCheckedHtml)"></if>`, the `!(printConfigTemplate.remarkCheckedHtml)` inside is an expression.
