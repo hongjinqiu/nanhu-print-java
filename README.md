@@ -19,6 +19,8 @@ Cooperating with the nanhu-print-js framework on the web front end, the pdf prin
 It is the first time to contact nanhu-print-java, please continue to read this chapter to understand the rich functions and core concepts provided by nanhu-print-java;<br>
 If you want to quickly experience nanhu-print-java, please refer to [Quick Start](document/quick_start.md) 
 
+#### nanhu-print-java design concept and core functions
+
 - [Introduction](document/introduction.md)
 - [Architecture](document/architecture.md)
 - [Extensibility](document/extensibility.md)
@@ -35,7 +37,7 @@ maven configuration
 </dependency>
 ```
 
-Next, refer to Quick Start to implement your first nanhu-print-java program
+Next, refer to [Quick Start](document/quick_start.md) to implement your first nanhu-print-java program
 
 Demo project docker address:
 ```
