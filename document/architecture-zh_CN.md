@@ -9,7 +9,8 @@ Nanhu-print-java 框架通过定义了以下几个组件, 来解析 XML, 并生�
 
 代码的整体流程如下:
 
-![whole_code_flow_en](https://github.com/hongjinqiu/nanhu-print-java/assets/1661806/7a50f5f5-bc06-4af3-9877-9ff2082aded3)
+<img width="531" alt="while_code_flow" src="https://github.com/hongjinqiu/nanhu-print-java/assets/1661806/e261f56e-c511-4813-8907-e3bdba235e69">
+
 	 
 ## 1.1. XML 配置转 java 对象映射组件
 Nanhu-print-java 框架定义 nanhuprint.xsd 文件, 再通过 jaxb 的 xjc 命令行工具, 生成了一堆 Java Bean 实体类, 	以完成从 XML 文件到 Java Bean 的映射。
