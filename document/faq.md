@@ -1,3 +1,5 @@
+# Frequently asked questions
+
 ### 1. Is there some sample code for reference
 You can refer to nanhu-print-java-demo<br>
 Git URL: https://github.com/hongjinqiu/nanhu-print-java-demo.git
