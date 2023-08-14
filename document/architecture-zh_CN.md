@@ -1,4 +1,4 @@
-# 1.架构,
+# 1.架构
 
 用户通过编写由 nanhu-print-java/src/main/resources/xsd/nanhuprint.xsd 所约束的 XML 格式配置文件, 结合自己的业务数据, 
 再调用 Nanhu-print-java 框架的 API, 即可生成 PDF 文件。
