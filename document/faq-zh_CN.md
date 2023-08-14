@@ -9,7 +9,7 @@ docker pull hjq20021984/nanhu-print-java-demo:2023-07-28.1
 docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:2023-07-28.1
 ```
 
-docker 运行起来之后, 访问 http://localhost:8891
+docker 运行起来之后, 访问 `http://localhost:8891`
 
 ### 2.如何来实现每个页面固定表头, 最后一页固定表尾的开发
 
