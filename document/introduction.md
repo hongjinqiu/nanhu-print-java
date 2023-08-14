@@ -40,7 +40,8 @@ The user's development process is mainly to configure files in xml format, and t
 
 # 2. The basic workflow of Nanhu-print-java
 
-![basic workflow](images/work_flow_chart.png "basic workflow")
+<img width="439" alt="work_flow_chart" src="https://github.com/hongjinqiu/nanhu-print-java/assets/1661806/c97363da-964e-4195-9a1c-6424f3ff54a4">
+
 
 First of all, Nanhu-print-java is a pdf printing framework, which defines its own XML model format file. <br><br>When users write XML format files, they need to follow the element definition of the XSD file.
 
@@ -48,7 +49,7 @@ As shown in the figure above, when using Nanhu-print-java, the user must prepare
 
 The sample code is as follows:
 
-![demo code](images/demo_code.png "demo code")
+<img width="556" alt="demo_code" src="https://github.com/hongjinqiu/nanhu-print-java/assets/1661806/01eb7fcf-3614-48bd-886f-84090ad3e904">
 
 # 3. Main functions of Nanhu-print-java
 
