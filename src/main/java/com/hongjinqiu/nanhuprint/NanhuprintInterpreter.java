@@ -51,6 +51,7 @@ public class NanhuprintInterpreter {
 		if (env == null) {
 			throw new NanhuprintException("env can't be null");
 		}
+		env = converToHashMapIfNot(env);
 		EvalFactory evalFactory = new EvalFactory();
 		NanhuprintExpressionEvaluator expressionEvaluator = new NanhuprintExpressionEvaluator();
 		IEval evalImplment = evalFactory.routeEval(html);
@@ -69,6 +70,7 @@ public class NanhuprintInterpreter {
 		if (env == null) {
 			throw new NanhuprintException("env can't be null");
 		}
+		env = converToHashMapIfNot(env);
 		Html html = unmarshallerToHtml(metaString);
 		if (html != null) {
 			return runDynamicElement(html, env);
@@ -110,6 +112,7 @@ public class NanhuprintInterpreter {
 	 * @return
 	 */
 	public void runToPdf(String filePath, Html html, Map<String, Object> env) {
+		env = converToHashMapIfNot(env);
 		EvalFactory evalFactory = new EvalFactory();
 		IEval evalImplment = evalFactory.routeEval(html);
 		((HtmlEval)evalImplment).evalToPdf(filePath, html, env);
@@ -139,6 +142,7 @@ public class NanhuprintInterpreter {
 	 * @return
 	 */
 	public byte[] runToPdf(Html html, Map<String, Object> env) {
+		env = converToHashMapIfNot(env);
 		EvalFactory evalFactory = new EvalFactory();
 		IEval evalImplment = evalFactory.routeEval(html);
 		return ((HtmlEval)evalImplment).evalToPdfByte(html, env);
@@ -152,6 +156,7 @@ public class NanhuprintInterpreter {
 	 * @return
 	 */
 	public void unmarshallerAndRunToPdf(String filePath, String metaString, Map<String, Object> env){
+		env = converToHashMapIfNot(env);
 		Html html = unmarshallerToHtml(metaString);
 		runToPdf(filePath, html, env);
 	}
@@ -163,6 +168,7 @@ public class NanhuprintInterpreter {
 	 * @return
 	 */
 	public byte[] unmarshallerAndRunToPdf(String metaString, Map<String, Object> env){
+		env = converToHashMapIfNot(env);
 		Html html = unmarshallerToHtml(metaString);
 		return runToPdf(html, env);
 	}
@@ -175,6 +181,7 @@ public class NanhuprintInterpreter {
 	 * @return
 	 */
 	public void interpreterString(String filePath, String metaString, Map<String, Object> env){
+		env = converToHashMapIfNot(env);
 		long begin = System.currentTimeMillis();
 		setFormatFunc(env);
 		String xmlString = unmarshallerAndRunDynamicElement(metaString, env);
@@ -189,6 +196,7 @@ public class NanhuprintInterpreter {
 	 * @param env
 	 */
 	public byte[] interpreterString(String metaString, Map<String, Object> env){
+		env = converToHashMapIfNot(env);
 		long begin = System.currentTimeMillis();
 		setFormatFunc(env);
 		String xmlString = unmarshallerAndRunDynamicElement(metaString, env);
@@ -221,6 +229,19 @@ public class NanhuprintInterpreter {
 			formatFunc.put(NanhuprintConstant.FORMAT_FUNC_VALUE_UNIT_PRICE, new UnitPriceFormat(unitPrice));
 		}
 		env.put("formatFunc", formatFunc);
+	}
+
+	/**
+	 * the env may by JSONObject, convert to HashMap, because will put formatFunc behind
+	 * @param env
+	 * @return
+	 */
+	private Map<String, Object> converToHashMapIfNot(Map<String, Object> env) {
+		if ((env != null) && (!env.getClass().getSimpleName().endsWith("HashMap"))) {
+			Map<String, Object> result = new HashMap<>(env);
+			return result;
+		}
+		return env;
 	}
 
 	//public static void main(String[] args) {
