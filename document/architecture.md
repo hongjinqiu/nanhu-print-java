@@ -64,7 +64,7 @@ In your application, you can use the functions of the Nanhu-print-java framework
 <dependency>
     <groupId>io.github.hongjinqiu</groupId>
     <artifactId>nanhu-print-java</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 

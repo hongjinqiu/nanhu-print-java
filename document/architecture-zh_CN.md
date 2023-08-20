@@ -63,7 +63,7 @@ Nanhu-print-java 框架, 规定表达式的语法为 js 语法, 表达式解析�
 <dependency>
     <groupId>io.github.hongjinqiu</groupId>
     <artifactId>nanhu-print-java</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
