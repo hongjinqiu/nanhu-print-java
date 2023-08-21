@@ -5,8 +5,8 @@ You can refer to nanhu-print-java-demo<br>
 Git URL: https://github.com/hongjinqiu/nanhu-print-java-demo.git
 
 ```
-docker pull hjq20021984/nanhu-print-java-demo:2023-07-28.1
-docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:2023-07-28.1
+docker pull hjq20021984/nanhu-print-java-demo:1.0.4
+docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:1.0.4
 ```
 
 After docker is running, visit `http://localhost:8891`

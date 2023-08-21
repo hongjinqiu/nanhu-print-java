@@ -76,8 +76,8 @@ Nanhu-print-java 框架, 规定表达式的语法为 js 语法, 表达式解析�
 
 nanhu-print-java-demo 项目的 docker 拉取和运行方式为:
 ```
-docker pull hjq20021984/nanhu-print-java-demo:2023-07-28.1
-docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:2023-07-28.1
+docker pull hjq20021984/nanhu-print-java-demo:1.0.4
+docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:1.0.4
 ```
 
 web 访问 `http://localhost:8891`
