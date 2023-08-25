@@ -45,3 +45,5 @@ docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-pri
 ```
 
 docker 运行起来之后, 访问 `http://localhost:8891`
+
+开发视频可参考:`https://youtu.be/vdTSc8rXr9M`

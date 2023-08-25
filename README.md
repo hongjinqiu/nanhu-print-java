@@ -46,3 +46,5 @@ docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-pri
 ```
 
 When docker is running, visit `http://localhost:8891`
+
+Development video can refer to: `https://youtu.be/vdTSc8rXr9M`

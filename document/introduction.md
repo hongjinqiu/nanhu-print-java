@@ -4,6 +4,8 @@ Nanhu-print-java is a pdf generation framework implemented by java language.
 
 User can prepare the json format business data and a xml format configure file, then call the nanhu-print-java framework API to complete the generation of a PDF file.
 
+Development video can refer to: `https://youtu.be/vdTSc8rXr9M`
+
 ## 1.1. The background of the birth of Nanhu-print-java
 
 The company I work for wants to implement a custom printing function, which needs to meet the following functions:
