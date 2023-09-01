@@ -54,7 +54,7 @@ The sample code is as follows:
 
 # 3. Main functions of Nanhu-print-java
 
-## 3.1. Each page has a fixed header, and the last page has a fixed footer.
+## 3.1. Each page has a fixed header, and the last page has a fixed footer (repeat headers and footers fixed to top and bottom on every page).
 
 Bill printing is a common function in enterprise applications. <br><br>It is usually required to display the title and company name at the top of a page, and display the summary of the table amount, date, company signature and other information at the bottom of the page.
 
