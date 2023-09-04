@@ -9,7 +9,7 @@
     <version>1.0.4</version>
 
     <name>${project.artifactId}</name>
-    <description>nanhu-print-java is a custom java pdf printing framework, user can configure xml format files, and then call the framework api to generate pdf files.
+    <description>nanhu-print-java is a custom java xml to pdf printing framework, user can configure xml format files, and then call the framework api to generate pdf files.
 The basic functions are:
 1. Fixed header and tail
 2. Watermark
