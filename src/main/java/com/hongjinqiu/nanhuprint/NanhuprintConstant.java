@@ -116,5 +116,7 @@ public class NanhuprintConstant {
 	public static final String NANHUPRINT_BODY_ID_KEY = "nanhuprint_id_body";
 	public static final String NANHUPRINT_TLOOP_ATTR_MODE_VALUE_TWO = "two";
 
+//	public static final String NANHUPRINT_CURRENT_PAGE_NUMBER = "nanhuprint_currentPageNumber";
+
 	private NanhuprintConstant() {}
 }

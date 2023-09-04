@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="https://github.com/hongjinqiu/nanhu-print-java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <style>
+        <css name="title0">
+            <fontSize pdf="16" />
+            <fontWeight pdf="bold" />
+        </css>
+        <css name="fontWeightBold">
+            <fontWeight pdf="bold" />
+        </css>
+        <css name="borderAll">
+            <borderLeftStyle js="solid"/>
+            <borderLeftWidth js="1px" pdf="0.1"/>
+            <borderLeftColor js="black"/>
+
+            <borderTopStyle js="solid"/>
+            <borderTopWidth js="1px" pdf="0.1"/>
+            <borderTopColor js="black"/>
+
+            <borderRightStyle js="solid"/>
+            <borderRightWidth js="1px" pdf="0.1"/>
+            <borderRightColor js="black"/>
+
+            <borderBottomStyle js="solid"/>
+            <borderBottomWidth js="1px" pdf="0.1"/>
+            <borderBottomColor js="black"/>
+        </css>
+        <css name="textAlignLeft">
+            <textAlign pdf="left" />
+        </css>
+        <css name="textAlignRight">
+            <textAlign pdf="right" />
+        </css>
+        <css name="textAlignCenter">
+            <textAlign pdf="center" />
+        </css>
+        <css name="borderLeftSolid">
+            <borderLeftStyle js="solid"/>
+            <borderLeftWidth js="1px" pdf="0.1"/>
+            <borderLeftColor js="black"/>
+        </css>
+        <css name="borderRightSolid">
+            <borderRightStyle js="solid"/>
+            <borderRightWidth js="1px" pdf="0.1"/>
+            <borderRightColor js="black"/>
+        </css>
+        <css name="borderBottomSolid">
+            <borderBottomStyle js="solid"/>
+            <borderBottomWidth js="1px" pdf="0.1"/>
+            <borderBottomColor js="black"/>
+        </css>
+        <css name="lineHeightAll">
+            <lineHeight pdf="30" />
+        </css>
+        <css name="paddingAll">
+            <paddingTop pdf="8" />
+            <paddingBottom pdf="8" />
+        </css>
+    </style>
+
+    <macros>
+    </macros>
+
+    <body pageSizePdf="A4" rotate="false" paddingLeft="50px" paddingRight="50px" paddingTop="30px" paddingBottom="30px">
+        <params>
+            <param name="extendToFillBody" value="default"></param>
+        </params>
+
+        <table cellspacing="0" cellpadding="0" width="100%">
+            <thead showPosition="everyPage">
+                <!-- the first tr, define the td width, height, and th count -->
+                <tr>
+                    <td width="14%" height="1px"></td>
+                    <td width="14%" height="1px"></td>
+                    <td width="" height="1px"></td>
+                    <td width="14%" height="1px"></td>
+                    <td width="14%" height="1px"></td>
+                    <td width="14%" height="1px"></td>
+                    <td width="14%" height="1px"></td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <div cls="lineHeightAll">
+                            <span value="Acme Paper Co LLC" cls="title0" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <table cellspacing="0" cellpadding="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td width="50%">
+                                        <div cls="lineHeightAll">
+                                            <span value="Bill To:" />
+                                        </div>
+                                        <div cls="lineHeightAll">
+                                            <span value="js:billTo" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div cls="lineHeightAll">
+                                            <span value="Ship To:" />
+                                        </div>
+                                        <div cls="lineHeightAll">
+                                            <span value="xxxx" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td colspan="4">
+                        <table cellspacing="0" cellpadding="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td width="50%">
+                                        <div cls="textAlignRight lineHeightAll">
+                                            <span value="Invoice Number:" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div cls="textAlignRight lineHeightAll">
+                                            <span value="xxxx" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div cls="textAlignRight lineHeightAll">
+                                            <span value="Invoice Date:" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div cls="textAlignRight lineHeightAll">
+                                            <span value="2022-03-12" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div cls="textAlignRight lineHeightAll">
+                                            <span value="Due Date:" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div cls="textAlignRight lineHeightAll">
+                                            <span value="2022-03-12" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div cls="textAlignRight lineHeightAll">
+                                            <span value="Tax Id:" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div cls="textAlignRight lineHeightAll">
+                                            <span value="D288658797" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td cls="borderAll fontWeightBold textAlignCenter paddingAll">
+                        <span value="Quantity" />
+                    </td>
+                    <td cls="borderAll fontWeightBold textAlignCenter paddingAll">
+                        <span value="Code" />
+                    </td>
+                    <td cls="borderAll fontWeightBold textAlignCenter paddingAll">
+                        <span value="Description" />
+                    </td>
+                    <td cls="borderAll fontWeightBold textAlignCenter paddingAll">
+                        <span value="Unit Price" />
+                    </td>
+                    <td cls="borderAll fontWeightBold textAlignCenter paddingAll">
+                        <span value="Tax1" />
+                    </td>
+                    <td cls="borderAll fontWeightBold textAlignCenter paddingAll">
+                        <span value="Tax2" />
+                    </td>
+                    <td cls="borderAll fontWeightBold textAlignCenter paddingAll">
+                        <span value="Line Total" />
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <forEach var="item" itemsJs="order.itemLi" varStatus="index">
+                    <tr cls="">
+                        <td cls="borderAll paddingAll">
+                            <span value="js:item.quantity" />
+                        </td>
+                        <td cls="borderAll paddingAll">
+                            <span value="js:item.code" />
+                        </td>
+                        <td cls="borderAll paddingAll">
+                            <span value="js:item.description" />
+                        </td>
+                        <td cls="borderAll paddingAll">
+                            <span value="js:item.unitPrice" />
+                        </td>
+                        <td cls="borderAll paddingAll">
+                            <span value="js:item.tax1" />
+                        </td>
+                        <td cls="borderAll paddingAll">
+                            <span value="js:item.tax2" />
+                        </td>
+                        <td cls="borderAll paddingAll">
+                            <span value="js:item.lineTotal" />
+                        </td>
+                    </tr>
+                </forEach>
+            </tbody>
+            <tloop>
+                <tr>
+                    <td cls="borderLeftSolid"><span value=" " /></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td cls="borderRightSolid"></td>
+                </tr>
+            </tloop>
+            <tbottom>
+                <tr>
+                    <td colspan="7" cls="borderLeftSolid borderBottomSolid borderRightSolid"><span value=" " /></td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div>
+                            <span value="The 13-letter motto was suggested in 1776 by Pierre Eugene du Simitiere to the committee responsible for developing the seal. At the time of the American Revolution, the phrase appeared regularly on the title page of the London-based Gentleman's Magazine, founded in 1731,[10][11] which collected articles from many sources into one periodical. This usage in turn can be traced back to the London-based Huguenot Peter Anthony Motteux, who had employed the adage for his The Gentleman's Journal, or the Monthly Miscellany (1692-1694). The phrase is similar to a Latin translation of a variation of Heraclitus's tenth fragment, &quot;The one is made up of all things, and all things issue from the one&quot;." />
+                        </div>
+                    </td>
+                    <td colspan="3">
+                        <table cellspacing="0" cellpadding="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td width="50%" cls="borderAll textAlignRight paddingAll">
+                                        <span value="Item Total" />
+                                    </td>
+                                    <td cls="borderAll textAlignRight paddingAll">
+                                        <span value="Item Total xxxxx" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" cls="borderAll textAlignRight paddingAll">
+                                        <span value="Discounts" />
+                                    </td>
+                                    <td cls="borderAll textAlignRight paddingAll">
+                                        <span value="Discounts xxxxx" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" cls="borderAll textAlignRight paddingAll">
+                                        <span value="Taxable1" />
+                                    </td>
+                                    <td cls="borderAll textAlignRight paddingAll">
+                                        <span value="Taxable1 xxxxx" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" cls="borderAll textAlignRight paddingAll">
+                                        <span value="Taxable2" />
+                                    </td>
+                                    <td cls="borderAll textAlignRight paddingAll">
+                                        <span value="Taxable2 xxxxx" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" cls="borderAll textAlignRight paddingAll">
+                                        <span value="Tax1" />
+                                    </td>
+                                    <td cls="borderAll textAlignRight paddingAll">
+                                        <span value="Tax1 xxxxx" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" cls="borderAll textAlignRight paddingAll">
+                                        <span value="Tax2" />
+                                    </td>
+                                    <td cls="borderAll textAlignRight paddingAll">
+                                        <span value="Tax2 xxxxx" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" cls="borderAll textAlignRight paddingAll">
+                                        <span value="Payments" />
+                                    </td>
+                                    <td cls="borderAll textAlignRight paddingAll">
+                                        <span value="Payments xxxxx" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" cls="borderAll textAlignRight paddingAll">
+                                        <span value="Amount Due" />
+                                    </td>
+                                    <td cls="borderAll textAlignRight paddingAll">
+                                        <span value="Amount Due xxxxx" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbottom>
+            <tbottom showPosition="everyPage">
+                <tr>
+                    <td colspan="7">
+                        <div>
+                            <params>
+                                <param name="customContent" value="com.hongjinqiu.nanhuprint.eval.custom.CustomPageNumber" />
+                                <param name="customContentFormat" value="{currentPageNumber} /of/ {totalPageNumber}" />
+                            </params>
+                        </div>
+                    </td>
+                </tr>
+            </tbottom>
+        </table>
+    </body>
+</html>

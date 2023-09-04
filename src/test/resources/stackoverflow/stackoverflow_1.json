@@ -1,0 +1,31 @@
+{
+  "billTo": "billTo in json file",
+  "order": {
+    "itemLi": [
+      {"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ,{"quantity": "quantity", "code": "code", "description": "description", "unitPrice": "unitPrice", "tax1": "tax1", "tax2": "tax2", "lineTotal": "lineTotal"}
+    ]
+  }
+}
