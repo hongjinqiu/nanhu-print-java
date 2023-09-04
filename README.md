@@ -6,6 +6,8 @@ Users can configure a file in xml format and prepare the json data format they w
 
 Then call the nanhu-print-java framework API to complete the generation of a PDF file.
 
+The nanhu-print-java framework calls iText to generate PDF.
+
 nanhu-print-java can help users complete these functions that are common in enterprise applications and difficult to achieve with direct code programming by configuring xml:
 
 - Each page has a fixed header, and the last page has a fixed footer (repeat headers and footers fixed to top and bottom on every page).
