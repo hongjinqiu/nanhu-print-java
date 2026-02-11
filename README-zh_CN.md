@@ -1,7 +1,9 @@
 # 什么是 nanhu-print-java
-nanhu-print-java 是一个用 java 语言实现的 pdf 生成框架, 用户可通过配置一个 xml 格式的文件, 准备好想打印的 json 数据格式, 
+nanhu-print-java 是一个用 java 语言实现的 xml 转 pdf 生成框架, 用户可通过配置一个 xml 格式的文件, 准备好想打印的 json 数据格式, 
 
 再调用 nanhu-print-java 框架API, 即可完成一个 PDF 文件的生成。
+
+nanhu-print-java 框架是调用 iText 来生成 PDF。
 
 nanhu-print-java 可以通过配置 xml 的方式,帮助用户完成企业应用常见, 用直接代码编程难以实现的这些功能:
 
