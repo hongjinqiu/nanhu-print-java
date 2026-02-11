@@ -71,7 +71,7 @@
             <param name="extendToFillBody" value="default"></param>
         </params>
 
-        <table cellspacing="0" cellpadding="0" width="100%" explain="true">
+        <table cellspacing="0" cellpadding="0" width="100%">
             <thead showPosition="everyPage">
                 <tr>
                     <td width="25%" height="1px"></td>
@@ -107,7 +107,7 @@
             <tbody>
                 <forEach var="item" itemsJs="order.itemLi" varStatus="index">
                     <tr cls="">
-                        <td cls="borderLeftSolid textAlignCenter paddingAll">
+                        <td cls="borderLeftSolid textAlignCenter paddingAll" explain="true">
                             <params>
                                 <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
                                 <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>

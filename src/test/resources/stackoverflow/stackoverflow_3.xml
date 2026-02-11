@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="https://github.com/hongjinqiu/nanhu-print-java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <style>
+        <css name="title0">
+            <fontSize pdf="16" />
+            <fontWeight pdf="bold" />
+            <paddingTop pdf="8" />
+            <paddingBottom pdf="8" />
+        </css>
+        <css name="title1">
+            <fontSize pdf="14" />
+            <fontWeight pdf="bold" />
+            <paddingTop pdf="8" />
+            <paddingBottom pdf="8" />
+        </css>
+    </style>
+
+    <macros>
+    </macros>
+
+    <body pageSizePdf="A4" rotate="false" paddingLeft="50px" paddingRight="50px" paddingTop="30px" paddingBottom="30px">
+        <params>
+            <param name="extendToFillBody" value="default"></param>
+        </params>
+
+        <table cellspacing="0" cellpadding="0" width="100%">
+            <thead showPosition="everyPage">
+                <!-- the first tr, define the td width, height, and th count -->
+                <tr>
+                    <td width="100%" height="1px"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div cls="title0">
+                            <span value="Clients Report" />
+                        </div>
+                        <div cls="title1">
+                            <span value="Header" />
+                        </div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div cls="title1">
+                            <span value="Client" />
+                        </div>
+                        <div>
+                            <span value="js:content" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tloop>
+                <tr>
+                    <td><span value=" " /></td>
+                </tr>
+            </tloop>
+            <tbottom showPosition="everyPage">
+                <tr>
+                    <td>
+                        <div cls="title1" >
+                            <span value="Footer" />
+                        </div>
+                        <div>
+                            <params>
+                                <param name="customContent" value="com.hongjinqiu.nanhuprint.eval.custom.CustomPageNumber" />
+                                <param name="customContentFormat" value="{currentPageNumber} /of/ {totalPageNumber}" />
+                            </params>
+                        </div>
+                    </td>
+                </tr>
+            </tbottom>
+        </table>
+    </body>
+</html>

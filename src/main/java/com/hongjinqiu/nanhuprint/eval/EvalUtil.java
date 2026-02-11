@@ -167,6 +167,30 @@ public class EvalUtil {
 		// 3.从 css 对应的样式中,按空格分割,从右向左查找,
 		if (StringUtils.isEmpty(value)) {
 			String cls = getValueByReflect(metaObj, "cls");
+
+			// 检查是否为 tbody 的第一行或最后一行,如果是,则使用特殊的 CSS 参数
+			Map<String, Object> env = NanhuprintThreadLocal.getEnv();
+			if (env != null) {
+				Boolean isFirstLine = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY);
+				Boolean isLastLine = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY);
+
+				// 如果是第一行,尝试使用 firstLineOfTbodyCss 参数
+				if (isFirstLine != null && isFirstLine) {
+					String firstLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_TBODY_CSS);
+					if (StringUtils.isNotEmpty(firstLineOfTbodyCss)) {
+						cls = firstLineOfTbodyCss;
+					}
+				}
+
+				// 如果是最后一行,尝试使用 lastLineofTbodyCss 参数
+				if (isLastLine != null && isLastLine) {
+					String lastLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_TBODY_CSS);
+					if (StringUtils.isNotEmpty(lastLineOfTbodyCss)) {
+						cls = lastLineOfTbodyCss;
+					}
+				}
+			}
+
 			if (StringUtils.isNotEmpty(cls)) {
 				String[] clsLi = cls.split(" +");// 控空格分隔
 				for (int i = clsLi.length - 1; i >= 0; i--) {

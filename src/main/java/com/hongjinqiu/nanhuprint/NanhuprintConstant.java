@@ -118,5 +118,10 @@ public class NanhuprintConstant {
 
 //	public static final String NANHUPRINT_CURRENT_PAGE_NUMBER = "nanhuprint_currentPageNumber";
 
+	public static final String NANHUPRINT_IS_FIRST_LINE_OF_TBODY = "nanhuprint_isFirstLineOfTbody";
+	public static final String NANHUPRINT_IS_LAST_LINE_OF_TBODY = "nanhuprint_isLastLineOfTbody";
+	public static final String FIRST_LINE_OF_TBODY_CSS = "firstLineOfTbodyCss";
+	public static final String LAST_LINE_OF_TBODY_CSS = "lastLineofTbodyCss";
+
 	private NanhuprintConstant() {}
 }

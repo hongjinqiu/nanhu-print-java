@@ -2,6 +2,7 @@ package com.hongjinqiu.nanhuprint.eval.custom;
 
 import com.hongjinqiu.nanhuprint.NanhuprintConstant;
 import com.hongjinqiu.nanhuprint.NanhuprintException;
+import com.hongjinqiu.nanhuprint.NanhuprintThreadLocal;
 import com.hongjinqiu.nanhuprint.enumerate.ShowPositionEnum;
 import com.hongjinqiu.nanhuprint.eval.AbstractEval;
 import com.hongjinqiu.nanhuprint.eval.EvalFactory;
@@ -123,6 +124,9 @@ public class ExtendToFillBodyEval extends AbstractEval {
 
                 // 末尾添加 tbottom every page
                 addTbottom(pdfPTable, table, ShowPositionEnum.EVERY_PAGE, env);
+                // 确保表格边框在分页时正确渲染
+                pdfPTable.setKeepTogether(false);
+                pdfPTable.setSpacingAfter(0f);
                 pdfPTable.setComplete(true);
                 pdfPTableList.add(pdfPTable);
             } else if (i == (totalPage - 1)) {
@@ -145,6 +149,9 @@ public class ExtendToFillBodyEval extends AbstractEval {
 
                 addTbottomAll(pdfPTable, table, env);
 
+                // 确保表格边框在分页时正确渲染
+                pdfPTable.setKeepTogether(false);
+                pdfPTable.setSpacingBefore(0f);
                 pdfPTable.setComplete(true);
                 pdfPTableList.add(pdfPTable);
             } else {
@@ -163,6 +170,10 @@ public class ExtendToFillBodyEval extends AbstractEval {
                 // 末尾添加 tbottom every page
                 addTbottom(pdfPTable, table, ShowPositionEnum.EVERY_PAGE, env);
 
+                // 确保表格边框在分页时正确渲染
+                pdfPTable.setKeepTogether(false);
+                pdfPTable.setSpacingBefore(0f);
+                pdfPTable.setSpacingAfter(0f);
                 pdfPTable.setComplete(true);
                 pdfPTableList.add(pdfPTable);
             }
@@ -233,9 +244,32 @@ public class ExtendToFillBodyEval extends AbstractEval {
      * 添加 tbody 中对应 index 的那一行
      */
     private void addTbody(PdfPTable pdfPTable, Table table, int index, Map<String, Object> env) {
+        // 获取 tbody 总行数
+        int totalTbodyRows = getTotalTbodyRows(table);
+
+        // 设置是否为第一行或最后一行的标志
+        if (index == 0) {
+            EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY, true);
+        } else {
+            EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY, false);
+        }
+
+        if (index == totalTbodyRows - 1) {
+            EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY, true);
+        } else {
+            EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY, false);
+        }
+
+        // 将 env 存储到 ThreadLocal 中，以便 getCssAttributeInternal 可以访问
+        NanhuprintThreadLocal.setEnv(env);
+
         List<Element> elements = createTbody(table, env, index);
         addCell(pdfPTable, elements);
         pdfPTable.completeRow();
+
+        // 清除标志
+        EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY, false);
+        EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY, false);
     }
 
     /**
@@ -245,6 +279,29 @@ public class ExtendToFillBodyEval extends AbstractEval {
         Integer currentPageNumber = (Integer) EvalUtil.getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_CURRENT_PAGE_NUMBER);
         currentPageNumber++;
         EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_CURRENT_PAGE_NUMBER, currentPageNumber);
+    }
+
+    /**
+     * 获取 tbody 的总行数
+     */
+    private int getTotalTbodyRows(Table table) {
+        if (table.getIfAndForEachAndSet() != null) {
+            for (Object obj : table.getIfAndForEachAndSet()) {
+                if (obj instanceof Tbody) {
+                    Tbody tbody = (Tbody) obj;
+                    if (tbody.getIfAndForEachAndSet() != null) {
+                        int count = 0;
+                        for (Object subObj : tbody.getIfAndForEachAndSet()) {
+                            if (subObj instanceof Tr) {
+                                count++;
+                            }
+                        }
+                        return count;
+                    }
+                }
+            }
+        }
+        return 0;
     }
 
     /**
@@ -510,9 +567,33 @@ public class ExtendToFillBodyEval extends AbstractEval {
                 if (obj instanceof Tbody) {
                     Tbody tbody = (Tbody) obj;
                     if (tbody.getIfAndForEachAndSet() != null) {
+                        // 先计算总行数
+                        int totalRows = 0;
+                        for (Object subObj : tbody.getIfAndForEachAndSet()) {
+                            if (subObj instanceof Tr) {
+                                totalRows++;
+                            }
+                        }
+
                         int i = 0;
                         for (Object subObj : tbody.getIfAndForEachAndSet()) {
                             if (subObj instanceof Tr) {
+                                // 设置是否为第一行或最后一行的标志
+                                if (i == 0) {
+                                    EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY, true);
+                                } else {
+                                    EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY, false);
+                                }
+
+                                if (i == totalRows - 1) {
+                                    EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY, true);
+                                } else {
+                                    EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY, false);
+                                }
+
+                                // 将 env 存储到 ThreadLocal 中，以便 getCssAttributeInternal 可以访问
+                                NanhuprintThreadLocal.setEnv(env);
+
                                 LineChild lineChild = new LineChild();
 
                                 List<Element> elements = createTrOrReturnCache((Tr) subObj, env);
@@ -527,6 +608,11 @@ public class ExtendToFillBodyEval extends AbstractEval {
 //								lineChild.setElements(elements);
 
                                 lineChildren.add(lineChild);
+
+                                // 清除标志
+                                EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY, false);
+                                EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY, false);
+
                                 i++;
                             }
                         }

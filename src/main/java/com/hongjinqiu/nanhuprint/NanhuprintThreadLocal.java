@@ -40,6 +40,9 @@ public class NanhuprintThreadLocal {
 	private static ThreadLocal<Map<String, String>> cssAttributeMap = new ThreadLocal<>();
 	// ================================= 用于性能优化的缓存变量 end =================================
 
+	// 存储当前执行环境变量
+	private static ThreadLocal<Map<String, Object>> env = new ThreadLocal<>();
+
 	/**
 	 * 清值
 	 */
@@ -55,6 +58,7 @@ public class NanhuprintThreadLocal {
 		clearNoCacheParamNames();
 		clearCacheObjectJsonString();
 		clearCssAttributeMap();
+		clearEnv();
 	}
 
 	/**
@@ -292,5 +296,27 @@ public class NanhuprintThreadLocal {
 	 */
 	public static void clearCssAttributeMap() {
 		cssAttributeMap.set(null);
+	}
+
+	/**
+	 * 从 threadLocal 中获取 env
+	 * @return
+	 */
+	public static Map<String, Object> getEnv() {
+		return env.get();
+	}
+
+	/**
+	 * 设置 env
+	 */
+	public static void setEnv(Map<String, Object> envMap) {
+		env.set(envMap);
+	}
+
+	/**
+	 * 清值
+	 */
+	public static void clearEnv() {
+		env.set(null);
 	}
 }
