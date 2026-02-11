@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="https://github.com/hongjinqiu/nanhu-print-java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <style>
+        <css name="title0">
+            <fontSize pdf="16" />
+            <fontWeight pdf="bold" />
+        </css>
+        <css name="fontWeightBold">
+            <fontWeight pdf="bold" />
+        </css>
+        <css name="borderAll">
+            <borderLeftStyle js="solid"/>
+            <borderLeftWidth js="1px" pdf="0.1"/>
+            <borderLeftColor js="black"/>
+
+            <borderTopStyle js="solid"/>
+            <borderTopWidth js="1px" pdf="0.1"/>
+            <borderTopColor js="black"/>
+
+            <borderRightStyle js="solid"/>
+            <borderRightWidth js="1px" pdf="0.1"/>
+            <borderRightColor js="black"/>
+
+            <borderBottomStyle js="solid"/>
+            <borderBottomWidth js="1px" pdf="0.1"/>
+            <borderBottomColor js="black"/>
+        </css>
+        <css name="textAlignLeft">
+            <textAlign pdf="left" />
+        </css>
+        <css name="textAlignRight">
+            <textAlign pdf="right" />
+        </css>
+        <css name="textAlignCenter">
+            <textAlign pdf="center" />
+        </css>
+        <css name="borderTopSolid">
+            <borderTopStyle js="solid"/>
+            <borderTopWidth js="1px" pdf="0.1"/>
+            <borderTopColor js="black"/>
+        </css>
+        <css name="borderLeftSolid">
+            <borderLeftStyle js="solid"/>
+            <borderLeftWidth js="1px" pdf="0.1"/>
+            <borderLeftColor js="black"/>
+        </css>
+        <css name="borderRightSolid">
+            <borderRightStyle js="solid"/>
+            <borderRightWidth js="1px" pdf="0.1"/>
+            <borderRightColor js="black"/>
+        </css>
+        <css name="borderBottomSolid">
+            <borderBottomStyle js="solid"/>
+            <borderBottomWidth js="1px" pdf="0.1"/>
+            <borderBottomColor js="black"/>
+        </css>
+        <css name="lineHeightAll">
+            <lineHeight pdf="30" />
+        </css>
+        <css name="paddingAll">
+            <paddingTop pdf="8" />
+            <paddingBottom pdf="8" />
+        </css>
+    </style>
+
+    <macros>
+    </macros>
+
+    <body pageSizePdf="A4" rotate="false" paddingLeft="50px" paddingRight="50px" paddingTop="30px" paddingBottom="30px">
+        <params>
+            <param name="extendToFillBody" value="default"></param>
+        </params>
+
+        <table cellspacing="0" cellpadding="0" width="100%" explain="true">
+            <thead showPosition="everyPage">
+                <tr>
+                    <td width="25%" height="1px"></td>
+                    <td width="25%" height="1px"></td>
+                    <td width="25%" height="1px"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div cls="borderBottomSolid paddingAll">
+                            <span value="This is the header that will repeat on every page at top" />
+                        </div>
+                        <div height="20px"></div>
+                    </td>
+                </tr>
+            </thead>
+            <thead showPosition="firstPage">
+                <tr cls="">
+                    <td cls="borderTopSolid borderLeftSolid fontWeightBold textAlignCenter paddingAll">
+                        <span value="Item" />
+                    </td>
+                    <td cls="borderTopSolid borderLeftSolid fontWeightBold textAlignCenter paddingAll">
+                        <span value="Quantity" />
+                    </td>
+                    <td cls="borderTopSolid borderLeftSolid fontWeightBold textAlignCenter paddingAll">
+                        <span value="Price" />
+                    </td>
+                    <td cls="borderTopSolid borderRightSolid fontWeightBold textAlignCenter paddingAll">
+                        <span value="Summa" />
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <forEach var="item" itemsJs="order.itemLi" varStatus="index">
+                    <tr cls="">
+                        <td cls="borderLeftSolid textAlignCenter paddingAll">
+                            <params>
+                                <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                                <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                            </params>
+                            <span value="js:item.item" />
+                        </td>
+                        <td cls="borderLeftSolid textAlignCenter paddingAll">
+                            <params>
+                                <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                                <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                            </params>
+                            <span value="js:item.quantity" />
+                        </td>
+                        <td cls="borderLeftSolid textAlignCenter paddingAll">
+                            <params>
+                                <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                                <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                            </params>
+                            <span value="js:item.price" />
+                        </td>
+                        <td cls="borderRightSolid textAlignCenter paddingAll">
+                            <params>
+                                <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                                <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                            </params>
+                            <span value="js:item.summa" />
+                        </td>
+                    </tr>
+                </forEach>
+            </tbody>
+            <tloop>
+                <tr>
+                    <td><span value=" " /></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tloop>
+            <tbottom showPosition="everyPage">
+                <tr cls="">
+                    <td colspan="4" cls="">
+                        <div height="20px"></div>
+                        <div cls="borderTopSolid paddingAll">
+                            <span value="This is the footer that will repeat on every page at bottom" />
+                        </div>
+                        <div cls="paddingAll">
+                            <params>
+                                <param name="customContent" value="com.hongjinqiu.nanhuprint.eval.custom.CustomPageNumber" />
+                                <param name="customContentFormat" value="{currentPageNumber} /of/ {totalPageNumber}" />
+                            </params>
+                        </div>
+                    </td>
+                </tr>
+            </tbottom>
+        </table>
+    </body>
+</html>
