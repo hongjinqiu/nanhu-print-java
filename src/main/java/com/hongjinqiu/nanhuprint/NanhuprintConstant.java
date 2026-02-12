@@ -123,5 +123,10 @@ public class NanhuprintConstant {
 	public static final String FIRST_LINE_OF_TBODY_CSS = "firstLineOfTbodyCss";
 	public static final String LAST_LINE_OF_TBODY_CSS = "lastLineofTbodyCss";
 
+	public static final String NANHUPRINT_IS_FIRST_LINE_OF_PAGE = "nanhuprint_isFirstLineOfPage";
+	public static final String NANHUPRINT_IS_LAST_LINE_OF_PAGE = "nanhuprint_isLastLineOfPage";
+	public static final String FIRST_LINE_OF_PAGE_CSS = "firstLineOfPageCss";
+	public static final String LAST_LINE_OF_PAGE_CSS = "lastLineOfPageCss";
+
 	private NanhuprintConstant() {}
 }

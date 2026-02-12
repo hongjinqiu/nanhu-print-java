@@ -171,22 +171,40 @@ public class EvalUtil {
 			// 检查是否为 tbody 的第一行或最后一行,如果是,则使用特殊的 CSS 参数
 			Map<String, Object> env = NanhuprintThreadLocal.getEnv();
 			if (env != null) {
-				Boolean isFirstLine = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY);
-				Boolean isLastLine = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY);
+				Boolean isFirstLineOfTbody = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY);
+				Boolean isLastLineOfTbody = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY);
+				Boolean isFirstLineOfPage = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_PAGE);
+				Boolean isLastLineOfPage = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE);
 
-				// 如果是第一行,尝试使用 firstLineOfTbodyCss 参数
-				if (isFirstLine != null && isFirstLine) {
+				// 如果是 tbody 的第一行,尝试使用 firstLineOfTbodyCss 参数
+				if (isFirstLineOfTbody != null && isFirstLineOfTbody) {
 					String firstLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_TBODY_CSS);
 					if (StringUtils.isNotEmpty(firstLineOfTbodyCss)) {
 						cls = firstLineOfTbodyCss;
 					}
 				}
 
-				// 如果是最后一行,尝试使用 lastLineofTbodyCss 参数
-				if (isLastLine != null && isLastLine) {
+				// 如果是 tbody 的最后一行,尝试使用 lastLineofTbodyCss 参数
+				if (isLastLineOfTbody != null && isLastLineOfTbody) {
 					String lastLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_TBODY_CSS);
 					if (StringUtils.isNotEmpty(lastLineOfTbodyCss)) {
 						cls = lastLineOfTbodyCss;
+					}
+				}
+
+				// 如果是页面的第一行,尝试使用 firstLineOfPageCss 参数
+				if (isFirstLineOfPage != null && isFirstLineOfPage) {
+					String firstLineOfPageCss = getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_PAGE_CSS);
+					if (StringUtils.isNotEmpty(firstLineOfPageCss)) {
+						cls = firstLineOfPageCss;
+					}
+				}
+
+				// 如果是页面的最后一行,尝试使用 lastLineOfPageCss 参数
+				if (isLastLineOfPage != null && isLastLineOfPage) {
+					String lastLineOfPageCss = getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_PAGE_CSS);
+					if (StringUtils.isNotEmpty(lastLineOfPageCss)) {
+						cls = lastLineOfPageCss;
 					}
 				}
 			}

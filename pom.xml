@@ -43,6 +43,12 @@ The basic functions are:
         </repository>
     </distributionManagement>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    </properties>
+
     <dependencies>
         <!--itext pdf-->
         <dependency>
@@ -91,6 +97,30 @@ The basic functions are:
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- JAXB dependencies for Java 11+ -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <!-- Nashorn for Java 11+ (deprecated in Java 11, removed in Java 15) -->
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>15.4</version>
         </dependency>
     </dependencies>
 
@@ -143,8 +173,8 @@ The basic functions are:
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
             <plugin>

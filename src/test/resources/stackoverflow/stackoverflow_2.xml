@@ -111,6 +111,8 @@
                             <params>
                                 <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
                                 <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                                <param name="firstLineOfPageCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                                <param name="lastLineOfPageCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
                             </params>
                             <span value="js:item.item" />
                         </td>
@@ -118,6 +120,8 @@
                             <params>
                                 <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
                                 <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                                <param name="firstLineOfPageCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                                <param name="lastLineOfPageCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
                             </params>
                             <span value="js:item.quantity" />
                         </td>
@@ -125,6 +129,8 @@
                             <params>
                                 <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
                                 <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                                <param name="firstLineOfPageCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                                <param name="lastLineOfPageCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
                             </params>
                             <span value="js:item.price" />
                         </td>
@@ -132,6 +138,8 @@
                             <params>
                                 <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
                                 <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                                <param name="firstLineOfPageCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                                <param name="lastLineOfPageCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
                             </params>
                             <span value="js:item.summa" />
                         </td>
