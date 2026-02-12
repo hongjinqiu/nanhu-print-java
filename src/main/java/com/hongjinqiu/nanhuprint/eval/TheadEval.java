@@ -1,8 +1,8 @@
 package com.hongjinqiu.nanhuprint.eval;
 
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Rectangle;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.Rectangle;
 import com.hongjinqiu.nanhuprint.NanhuprintConstant;
 import com.hongjinqiu.nanhuprint.NanhuprintExpressionEvaluator;
 import com.hongjinqiu.nanhuprint.NanhuprintThreadLocal;

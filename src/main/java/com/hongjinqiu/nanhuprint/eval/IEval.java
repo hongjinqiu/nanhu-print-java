@@ -1,7 +1,6 @@
 package com.hongjinqiu.nanhuprint.eval;
 
-import com.itextpdf.text.Element;
-import com.itextpdf.text.pdf.interfaces.IAccessibleElement;
+import com.lowagie.text.Element;
 import com.hongjinqiu.nanhuprint.NanhuprintExpressionEvaluator;
 
 import java.util.List;

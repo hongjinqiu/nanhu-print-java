@@ -1,9 +1,9 @@
 package com.hongjinqiu.nanhuprint.eval;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
+import java.awt.Color;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
 import com.hongjinqiu.nanhuprint.NanhuprintConstant;
 import com.hongjinqiu.nanhuprint.NanhuprintException;
 import com.hongjinqiu.nanhuprint.NanhuprintExpressionEvaluator;
@@ -136,7 +136,7 @@ public class SpanEval extends AbstractEval {
 		{
 			String attributeValue = EvalUtil.getCssAttribute(metaObj, NanhuprintConstant.BACKGROUND_COLOR);
 			if (StringUtils.isNotEmpty(attributeValue)) {
-				BaseColor bgColor = EvalUtil.getBaseColor(attributeValue);
+				Color bgColor = EvalUtil.getBaseColor(attributeValue);
 				if (bgColor != null) {
 					chunk.setBackground(bgColor);
 				}

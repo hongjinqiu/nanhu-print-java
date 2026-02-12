@@ -2,9 +2,9 @@ package com.hongjinqiu.nanhuprint.eval.custom;
 
 import com.hongjinqiu.nanhuprint.NanhuprintException;
 import com.hongjinqiu.nanhuprint.NanhuprintThreadLocal;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.pdf.BaseFont;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
+import com.lowagie.text.pdf.BaseFont;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;

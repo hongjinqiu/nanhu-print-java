@@ -17,9 +17,10 @@ import com.hongjinqiu.nanhuprint.model.Css;
 import com.hongjinqiu.nanhuprint.model.Param;
 import com.hongjinqiu.nanhuprint.model.Params;
 import com.hongjinqiu.nanhuprint.model.Tr;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import java.awt.Color;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsonValueProcessor;
@@ -810,7 +811,7 @@ public class EvalUtil {
 	 * @param color
 	 */
 	private static void setColorToFont(Font font, String color) {
-		BaseColor baseColor = getBaseColor(color);
+		Color baseColor = getBaseColor(color);
 		if (baseColor != null) {
 			font.setColor(baseColor);
 		}
@@ -821,46 +822,46 @@ public class EvalUtil {
 	 *
 	 * @param color
 	 */
-	public static BaseColor getBaseColor(String color) {
+	public static Color getBaseColor(String color) {
 		if (StringUtils.isNotEmpty(color)) {
 			if (color.toLowerCase().equals("white")) {
-				return BaseColor.WHITE;
+				return Color.WHITE;
 			}
 			if (color.toLowerCase().equals("light_gray")) {
-				return BaseColor.LIGHT_GRAY;
+				return Color.lightGray;
 			}
 			if (color.toLowerCase().equals("gray")) {
-				return BaseColor.GRAY;
+				return Color.gray;
 			}
 			if (color.toLowerCase().equals("dark_gray")) {
-				return BaseColor.DARK_GRAY;
+				return Color.darkGray;
 			}
 			if (color.toLowerCase().equals("black")) {
-				return BaseColor.BLACK;
+				return Color.BLACK;
 			}
 			if (color.toLowerCase().equals("red")) {
-				return BaseColor.RED;
+				return Color.RED;
 			}
 			if (color.toLowerCase().equals("pink")) {
-				return BaseColor.PINK;
+				return Color.PINK;
 			}
 			if (color.toLowerCase().equals("orange")) {
-				return BaseColor.ORANGE;
+				return Color.ORANGE;
 			}
 			if (color.toLowerCase().equals("yellow")) {
-				return BaseColor.YELLOW;
+				return Color.YELLOW;
 			}
 			if (color.toLowerCase().equals("green")) {
-				return BaseColor.GREEN;
+				return Color.GREEN;
 			}
 			if (color.toLowerCase().equals("magenta")) {
-				return BaseColor.MAGENTA;
+				return Color.MAGENTA;
 			}
 			if (color.toLowerCase().equals("cyan")) {
-				return BaseColor.CYAN;
+				return Color.CYAN;
 			}
 			if (color.toLowerCase().equals("blue")) {
-				return BaseColor.BLUE;
+				return Color.BLUE;
 			}
 			if (color.startsWith("#")) {
 				color = color.substring(1);
@@ -872,7 +873,7 @@ public class EvalUtil {
 				int red = Integer.parseInt(str2, 16);
 				int green = Integer.parseInt(str3, 16);
 				int blue = Integer.parseInt(str4, 16);
-				return new BaseColor(red, green, blue);
+				return new Color(red, green, blue);
 			}
 		}
 		return null;
@@ -1590,7 +1591,7 @@ public class EvalUtil {
 			if (width > 0) {
 				String cellText = cell.getPhrase().getContent();
 //				Font font = cell.getPhrase().getFont();// 当文本内容为 6.00% 时,多了一个 % 号,此时,这行代码的返回值,会丢掉 fontStyle,变成不加粗,因此,直接 getChunk,
-				Font font = cell.getPhrase().getChunks().get(0).getFont();
+				Font font = cell.getPhrase().getFont();// OpenPDF: 使用 Phrase 的 getFont() 方法
 				float fontSize = font.getSize();
 				if (fontSize == Font.UNDEFINED) {
 					fontSize = 20;

@@ -18,10 +18,10 @@ import com.hongjinqiu.nanhuprint.model.Tbottom;
 import com.hongjinqiu.nanhuprint.model.Thead;
 import com.hongjinqiu.nanhuprint.model.Tloop;
 import com.hongjinqiu.nanhuprint.model.Tr;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
