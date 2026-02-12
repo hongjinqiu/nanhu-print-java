@@ -128,5 +128,8 @@ public class NanhuprintConstant {
 	public static final String FIRST_LINE_OF_PAGE_CSS = "firstLineOfPageCss";
 	public static final String LAST_LINE_OF_PAGE_CSS = "lastLineOfPageCss";
 
+	// Document 对象，用于页面边框高度重新计算
+	public static final String NANHUPRINT_DOCUMENT = "nanhuprint_document";
+
 	private NanhuprintConstant() {}
 }

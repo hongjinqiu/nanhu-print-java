@@ -131,6 +131,9 @@ public class ExtendToFillBodyEval extends AbstractEval {
      * @return
      */
     private List<PdfPTable> getPdfPTableMoreThanOnePage(Document document, Table table, ExtendToFillBodyStruct extendToFillBodyStruct, Map<String, Object> env) {
+        // 将 document 存储到环境变量中，供高度重新计算使用
+        EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_DOCUMENT, document);
+
         EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_CURRENT_PAGE_NUMBER, 1);// 当前页,放1
         EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_TOTAL_PAGE_NUMBER, getPdfPTableMoreThanOneTotalPageNumber(document, extendToFillBodyStruct));// 总页数
 
@@ -231,19 +234,77 @@ public class ExtendToFillBodyEval extends AbstractEval {
         // 获取 tbody 总行数
         int totalTbodyRows = getTotalTbodyRows(table);
 
-        // 记录当前页添加的第一行和最后一行的索引
-        int firstLineIndexInCurrentPage = -1;
-        int lastLineIndexInCurrentPage = -1;
+        // 获取 document 对象（用于高度重新计算）
+        Document document = (Document) EvalUtil.getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_DOCUMENT);
 
-        // 先找出当前页可以放下哪些行
+        // 第一阶段：使用普通高度确定当前页可以放下哪些行
         List<Integer> linesInCurrentPage = new ArrayList<>();
+        float tempPageHeight = currentPageHeight;
+
         for (LineChild lineChild : extendToFillBodyStruct.getTbodyLineChilds()) {
             if (lineChild.getIndex() > lastTbodyLineChildIndex) {
-                if (currentPageHeight + lineChild.getHeight() <= documentContentHeight) {
+                if (tempPageHeight + lineChild.getHeight() <= documentContentHeight) {
                     linesInCurrentPage.add(lineChild.getIndex());
-                    currentPageHeight += lineChild.getHeight();
+                    tempPageHeight += lineChild.getHeight();
                 } else {
                     break;
+                }
+            }
+        }
+
+        // 第二阶段：迭代调整边界行高度
+        // 检查最后一行是否需要应用页面边框 CSS，如果应用后放不下，则移除该行
+        boolean adjusted = true;
+        while (adjusted && !linesInCurrentPage.isEmpty()) {
+            adjusted = false;
+
+            int lastLineIndex = linesInCurrentPage.get(linesInCurrentPage.size() - 1);
+
+            // 检查最后一行是否配置了 lastLineOfPageCss（且不是 tbody 最后一行）
+            if (lastLineIndex != totalTbodyRows - 1 && hasLastLineOfPageCss(table, lastLineIndex)) {
+                if (document != null) {
+                    // 获取原始高度
+                    float originalHeight = getLineChildHeight(extendToFillBodyStruct, lastLineIndex);
+
+                    // 重新计算高度（使用 lastLineOfPageCss）
+                    float recalculatedHeight = calculateHeightWithPageBorderCss(document, table, lastLineIndex, env, false, true);
+
+                    // 如果重新计算的高度更大
+                    if (recalculatedHeight > originalHeight) {
+                        float newPageHeight = tempPageHeight - originalHeight + recalculatedHeight;
+
+                        // 检查是否会超出页面
+                        if (newPageHeight > documentContentHeight) {
+                            // 移除最后一行，它应该放在下一页
+                            linesInCurrentPage.remove(linesInCurrentPage.size() - 1);
+                            tempPageHeight -= originalHeight;
+                            adjusted = true; // 需要重新检查新的最后一行
+                        } else {
+                            // 可以放下，更新高度
+                            tempPageHeight = newPageHeight;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 第三阶段：检查第一行是否需要应用页面边框 CSS
+        if (!linesInCurrentPage.isEmpty()) {
+            int firstLineIndex = linesInCurrentPage.get(0);
+
+            // 检查第一行是否配置了 firstLineOfPageCss（且不是 tbody 第一行）
+            if (firstLineIndex != 0 && hasFirstLineOfPageCss(table, firstLineIndex)) {
+                if (document != null) {
+                    // 获取原始高度
+                    float originalHeight = getLineChildHeight(extendToFillBodyStruct, firstLineIndex);
+
+                    // 重新计算高度（使用 firstLineOfPageCss）
+                    float recalculatedHeight = calculateHeightWithPageBorderCss(document, table, firstLineIndex, env, true, false);
+
+                    // 如果重新计算的高度更大，更新总高度
+                    if (recalculatedHeight > originalHeight) {
+                        tempPageHeight = tempPageHeight - originalHeight + recalculatedHeight;
+                    }
                 }
             }
         }
@@ -269,7 +330,7 @@ public class ExtendToFillBodyEval extends AbstractEval {
             EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE, false);
         }
 
-        heightIndexParamVO.setCurrentPageHeight(currentPageHeight);
+        heightIndexParamVO.setCurrentPageHeight(tempPageHeight);
         heightIndexParamVO.setLastTbodyLineChildIndex(lastTbodyLineChildIndex);
     }
 
@@ -823,6 +884,179 @@ public class ExtendToFillBodyEval extends AbstractEval {
             }
         }
         return false;
+    }
+
+    /**
+     * 检查指定行是否配置了 firstLineOfPageCss 参数
+     *
+     * @param table 表格对象
+     * @param rowIndex 行索引
+     * @return 是否配置了 firstLineOfPageCss
+     */
+    private boolean hasFirstLineOfPageCss(Table table, int rowIndex) {
+        if (table.getIfAndForEachAndSet() != null) {
+            for (Object obj : table.getIfAndForEachAndSet()) {
+                if (obj instanceof Tbody) {
+                    Tbody tbody = (Tbody) obj;
+                    if (tbody.getIfAndForEachAndSet() != null) {
+                        int i = 0;
+                        for (Object subObj : tbody.getIfAndForEachAndSet()) {
+                            if (subObj instanceof Tr) {
+                                if (i == rowIndex) {
+                                    return recursiveFindFirstLineOfPageCss(subObj);
+                                }
+                                i++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 递归查找自身或子元素是否包含 firstLineOfPageCss 参数
+     *
+     * @param metaObj 元素对象
+     * @return 是否包含 firstLineOfPageCss
+     */
+    private boolean recursiveFindFirstLineOfPageCss(Object metaObj) {
+        List<Object> childLi = EvalUtil.getChildLi(metaObj);
+        String firstLineOfPageCss = EvalUtil.getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_PAGE_CSS);
+        if (StringUtils.isNotEmpty(firstLineOfPageCss)) {
+            return true;
+        }
+        if (childLi != null) {
+            for (Object child : childLi) {
+                if (recursiveFindFirstLineOfPageCss(child)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 检查指定行是否配置了 lastLineOfPageCss 参数
+     *
+     * @param table 表格对象
+     * @param rowIndex 行索引
+     * @return 是否配置了 lastLineOfPageCss
+     */
+    private boolean hasLastLineOfPageCss(Table table, int rowIndex) {
+        if (table.getIfAndForEachAndSet() != null) {
+            for (Object obj : table.getIfAndForEachAndSet()) {
+                if (obj instanceof Tbody) {
+                    Tbody tbody = (Tbody) obj;
+                    if (tbody.getIfAndForEachAndSet() != null) {
+                        int i = 0;
+                        for (Object subObj : tbody.getIfAndForEachAndSet()) {
+                            if (subObj instanceof Tr) {
+                                if (i == rowIndex) {
+                                    return recursiveFindLastLineOfPageCss(subObj);
+                                }
+                                i++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 递归查找自身或子元素是否包含 lastLineOfPageCss 参数
+     *
+     * @param metaObj 元素对象
+     * @return 是否包含 lastLineOfPageCss
+     */
+    private boolean recursiveFindLastLineOfPageCss(Object metaObj) {
+        List<Object> childLi = EvalUtil.getChildLi(metaObj);
+        String lastLineOfPageCss = EvalUtil.getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_PAGE_CSS);
+        if (StringUtils.isNotEmpty(lastLineOfPageCss)) {
+            return true;
+        }
+        if (childLi != null) {
+            for (Object child : childLi) {
+                if (recursiveFindLastLineOfPageCss(child)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 使用页面边框 CSS 重新计算行高度
+     *
+     * @param document 文档对象
+     * @param table 表格对象
+     * @param rowIndex 行索引
+     * @param env 环境变量
+     * @param isFirstLineOfPage 是否为页面第一行
+     * @param isLastLineOfPage 是否为页面最后一行
+     * @return 计算后的高度
+     */
+    private float calculateHeightWithPageBorderCss(Document document, Table table, int rowIndex, Map<String, Object> env,
+                                                    boolean isFirstLineOfPage, boolean isLastLineOfPage) {
+        // 保存原始标志
+        Boolean originalFirstFlag = (Boolean) EvalUtil.getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_PAGE);
+        Boolean originalLastFlag = (Boolean) EvalUtil.getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE);
+
+        // 设置页面标志
+        EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_PAGE, isFirstLineOfPage);
+        EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE, isLastLineOfPage);
+        NanhuprintThreadLocal.setEnv(env);
+
+        // 创建临时 PdfPTable 计算高度
+        TableEval tableEval = new TableEval();
+        PdfPTable tempTable = tableEval.getPdfPTableWithLockWith(table, getDocumentContentWidth(document));
+
+        float begin = tempTable.getTotalHeight();
+        List<Element> elements = createTbody(table, env, rowIndex);
+        addCell(tempTable, elements);
+        tempTable.completeRow();
+        float end = tempTable.getTotalHeight();
+
+        // 恢复原始标志
+        EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_PAGE, originalFirstFlag != null && originalFirstFlag);
+        EvalUtil.setValueToNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE, originalLastFlag != null && originalLastFlag);
+
+        return end - begin;
+    }
+
+    /**
+     * 获取指定索引的 LineChild 的高度
+     *
+     * @param extendToFillBodyStruct 结构对象
+     * @param index 行索引
+     * @return 行高度，如果找不到返回 0
+     */
+    private float getLineChildHeight(ExtendToFillBodyStruct extendToFillBodyStruct, int index) {
+        for (LineChild lineChild : extendToFillBodyStruct.getTbodyLineChilds()) {
+            if (lineChild.getIndex() == index) {
+                return lineChild.getHeight();
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 获取下一个 LineChild
+     *
+     * @param extendToFillBodyStruct 结构对象
+     * @param currentIndex 当前索引
+     * @return 下一个 LineChild，如果没有则返回 null
+     */
+    private LineChild getNextLineChild(ExtendToFillBodyStruct extendToFillBodyStruct, int currentIndex) {
+        for (LineChild lineChild : extendToFillBodyStruct.getTbodyLineChilds()) {
+            if (lineChild.getIndex() == currentIndex + 1) {
+                return lineChild;
+            }
+        }
+        return null;
     }
 
     /**

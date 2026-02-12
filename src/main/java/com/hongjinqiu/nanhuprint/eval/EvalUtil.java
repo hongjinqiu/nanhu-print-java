@@ -179,46 +179,8 @@ public class EvalUtil {
 		if (StringUtils.isEmpty(value)) {
 			String cls = getValueByReflect(metaObj, "cls");
 
-			// 检查是否为 tbody 的第一行或最后一行,如果是,则使用特殊的 CSS 参数
-			Map<String, Object> env = NanhuprintThreadLocal.getEnv();
-			if (env != null) {
-				Boolean isFirstLineOfTbody = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY);
-				Boolean isLastLineOfTbody = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY);
-				Boolean isFirstLineOfPage = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_PAGE);
-				Boolean isLastLineOfPage = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE);
-
-				// 如果是 tbody 的第一行,尝试使用 firstLineOfTbodyCss 参数
-				if (isFirstLineOfTbody != null && isFirstLineOfTbody) {
-					String firstLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_TBODY_CSS);
-					if (StringUtils.isNotEmpty(firstLineOfTbodyCss)) {
-						cls = firstLineOfTbodyCss;
-					}
-				}
-
-				// 如果是 tbody 的最后一行,尝试使用 lastLineofTbodyCss 参数
-				if (isLastLineOfTbody != null && isLastLineOfTbody) {
-					String lastLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_TBODY_CSS);
-					if (StringUtils.isNotEmpty(lastLineOfTbodyCss)) {
-						cls = lastLineOfTbodyCss;
-					}
-				}
-
-				// 如果是页面的第一行,尝试使用 firstLineOfPageCss 参数
-				if (isFirstLineOfPage != null && isFirstLineOfPage) {
-					String firstLineOfPageCss = getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_PAGE_CSS);
-					if (StringUtils.isNotEmpty(firstLineOfPageCss)) {
-						cls = firstLineOfPageCss;
-					}
-				}
-
-				// 如果是页面的最后一行,尝试使用 lastLineOfPageCss 参数
-				if (isLastLineOfPage != null && isLastLineOfPage) {
-					String lastLineOfPageCss = getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_PAGE_CSS);
-					if (StringUtils.isNotEmpty(lastLineOfPageCss)) {
-						cls = lastLineOfPageCss;
-					}
-				}
-			}
+			// 根据行位置（tbody 边界和 page 边界）选择特殊的 CSS
+			cls = selectBorderCssIfNeeded(metaObj, childLi, cls);
 
 			if (StringUtils.isNotEmpty(cls)) {
 				String[] clsLi = cls.split(" +");// 控空格分隔
@@ -283,6 +245,68 @@ public class EvalUtil {
 			ExplainUtil.addExplain(origMetaObj, "从父标签 " + metaObj.getClass().getName() + " 中查找 " + attributeName + " 值(查找范围:子标签,属性,cls)->" + value);
 		}
 		return value;
+	}
+
+	/**
+	 * 根据行位置（tbody 边界和 page 边界）选择特殊的边框 CSS
+	 * 将所有 tbody 和 page 边框相关的常量和逻辑集中在一个方法中
+	 *
+	 * @param metaObj 元素对象
+	 * @param childLi 子元素列表
+	 * @param defaultCls 默认的 CSS 类名
+	 * @return 选择后的 CSS 类名
+	 */
+	private static String selectBorderCssIfNeeded(Object metaObj, List<Object> childLi, String defaultCls) {
+		String cls = defaultCls;
+
+		// 从 ThreadLocal 获取环境变量
+		Map<String, Object> env = NanhuprintThreadLocal.getEnv();
+		if (env == null) {
+			return cls;
+		}
+
+		// 获取所有边框标志
+		Boolean isFirstLineOfTbody = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY);
+		Boolean isLastLineOfTbody = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY);
+		Boolean isFirstLineOfPage = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_PAGE);
+		Boolean isLastLineOfPage = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE);
+
+		// 优先级：页面边框 > tbody 边框
+		// 按优先级从低到高检查，后面的会覆盖前面的
+
+		// 1. 如果是 tbody 的第一行，尝试使用 firstLineOfTbodyCss 参数
+		if (isFirstLineOfTbody != null && isFirstLineOfTbody) {
+			String firstLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_TBODY_CSS);
+			if (StringUtils.isNotEmpty(firstLineOfTbodyCss)) {
+				cls = firstLineOfTbodyCss;
+			}
+		}
+
+		// 2. 如果是 tbody 的最后一行，尝试使用 lastLineofTbodyCss 参数
+		if (isLastLineOfTbody != null && isLastLineOfTbody) {
+			String lastLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_TBODY_CSS);
+			if (StringUtils.isNotEmpty(lastLineOfTbodyCss)) {
+				cls = lastLineOfTbodyCss;
+			}
+		}
+
+		// 3. 如果是页面的第一行，尝试使用 firstLineOfPageCss 参数（优先级更高）
+		if (isFirstLineOfPage != null && isFirstLineOfPage) {
+			String firstLineOfPageCss = getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_PAGE_CSS);
+			if (StringUtils.isNotEmpty(firstLineOfPageCss)) {
+				cls = firstLineOfPageCss;
+			}
+		}
+
+		// 4. 如果是页面的最后一行，尝试使用 lastLineOfPageCss 参数（优先级最高）
+		if (isLastLineOfPage != null && isLastLineOfPage) {
+			String lastLineOfPageCss = getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_PAGE_CSS);
+			if (StringUtils.isNotEmpty(lastLineOfPageCss)) {
+				cls = lastLineOfPageCss;
+			}
+		}
+
+		return cls;
 	}
 
 	/**
