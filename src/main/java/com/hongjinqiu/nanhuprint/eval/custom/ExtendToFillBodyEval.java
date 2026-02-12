@@ -38,7 +38,40 @@ import java.util.Map;
  */
 public class ExtendToFillBodyEval extends AbstractEval {
     private String childKey = "ifAndForEachAndSet";
-    private Map<Object, List<Element>> objCache = new HashMap<>();// 用来缓存thead-tr, tbody-tr, tbottom-tr,在计算高度后,可以缓存的就缓存下来,避免重复创建,
+    private Map<CacheKey, List<Element>> objCache = new HashMap<>();// 用来缓存thead-tr, tbody-tr, tbottom-tr,在计算高度后,可以缓存的就缓存下来,避免重复创建,
+
+    /**
+     * 缓存键，包含元素对象和页面边框标志
+     */
+    private static class CacheKey {
+        private final Object obj;
+        private final boolean isFirstLineOfPage;
+        private final boolean isLastLineOfPage;
+
+        public CacheKey(Object obj, boolean isFirstLineOfPage, boolean isLastLineOfPage) {
+            this.obj = obj;
+            this.isFirstLineOfPage = isFirstLineOfPage;
+            this.isLastLineOfPage = isLastLineOfPage;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CacheKey cacheKey = (CacheKey) o;
+            return isFirstLineOfPage == cacheKey.isFirstLineOfPage &&
+                    isLastLineOfPage == cacheKey.isLastLineOfPage &&
+                    obj.equals(cacheKey.obj);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = obj.hashCode();
+            result = 31 * result + (isFirstLineOfPage ? 1 : 0);
+            result = 31 * result + (isLastLineOfPage ? 1 : 0);
+            return result;
+        }
+    }
 
     @Override
     public String getChildKey() {
@@ -525,11 +558,19 @@ public class ExtendToFillBodyEval extends AbstractEval {
 
         pdfPTable.setComplete(true);
 
-        // 清空缓存，因为在计算高度时创建的元素没有考虑页面边框
-        // 后续渲染时需要重新创建元素以应用页面边框
-        objCache.clear();
-        // 同时清空 CSS 属性缓存，否则会使用计算高度时缓存的属性值
-        NanhuprintThreadLocal.getCssAttributeMap().clear();
+        // 注意：由于使用了复合缓存键（包含页面边框标志），不需要清空任何缓存
+        //
+        // 1. objCache 使用 CacheKey(tr, isFirstLineOfPage, isLastLineOfPage) 作为键
+        //    - 高度计算时：CacheKey(tr, false, false)
+        //    - 渲染页面边界时：CacheKey(tr, true, false) 或 CacheKey(tr, false, true)
+        //    不同的缓存键自动避免冲突
+        //
+        // 2. cssAttributeMap 使用 "id_attribute_isFirstLineOfPage_isLastLineOfPage" 作为键
+        //    - 高度计算时：id_cls_false_false
+        //    - 渲染页面边界时：id_cls_true_false 或 id_cls_false_true
+        //    不同的缓存键自动避免冲突
+        //
+        // 这样既保持了缓存的性能优势，又正确支持了页面边框 CSS 功能
 
         return extendToFillBodyStruct;
     }
@@ -733,16 +774,32 @@ public class ExtendToFillBodyEval extends AbstractEval {
      * @return
      */
     private List<Element> createTrOrReturnCache(Tr tr, Map<String, Object> env) {
-        if (objCache.get(tr) != null) {
-            return objCache.get(tr);
+        // 获取当前的页面边框标志
+        Boolean isFirstLineOfPage = (Boolean) EvalUtil.getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_PAGE);
+        Boolean isLastLineOfPage = (Boolean) EvalUtil.getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE);
+
+        // 创建复合缓存键
+        CacheKey cacheKey = new CacheKey(
+            tr,
+            isFirstLineOfPage != null && isFirstLineOfPage,
+            isLastLineOfPage != null && isLastLineOfPage
+        );
+
+        // 尝试从缓存中获取
+        if (objCache.get(cacheKey) != null) {
+            return objCache.get(cacheKey);
         }
+
+        // 缓存中没有，创建新元素
         EvalFactory evalFactory = new EvalFactory();
         IEval evalImplment = evalFactory.routeEval(tr);
         List<Element> result = evalImplment.evalToPdf(tr, env);
-        // 如果 tr 子元素中,包括有 customContent 参数,或者包括有 firstLineOfPageCss/lastLineOfPageCss 参数,则不对这块内容进行缓存,
-        if (!recursiveFindCustomContent(tr) && !recursiveFindPageCss(tr)) {
-            objCache.put(tr, result);
+
+        // 如果 tr 子元素中包含 customContent 参数，则不缓存（因为内容是动态的）
+        if (!recursiveFindCustomContent(tr)) {
+            objCache.put(cacheKey, result);
         }
+
         return result;
     }
 
@@ -761,29 +818,6 @@ public class ExtendToFillBodyEval extends AbstractEval {
         if (childLi != null) {
             for (Object child : childLi) {
                 if (recursiveFindCustomContent(child)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 递归查找自身或子元素包含有 firstLineOfPageCss 或 lastLineOfPageCss 的内容,有则不缓存
-     *
-     * @param metaObj
-     * @return
-     */
-    private boolean recursiveFindPageCss(Object metaObj) {
-        List<Object> childLi = EvalUtil.getChildLi(metaObj);
-        String firstLineOfPageCss = EvalUtil.getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_PAGE_CSS);
-        String lastLineOfPageCss = EvalUtil.getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_PAGE_CSS);
-        if (StringUtils.isNotEmpty(firstLineOfPageCss) || StringUtils.isNotEmpty(lastLineOfPageCss)) {
-            return true;
-        }
-        if (childLi != null) {
-            for (Object child : childLi) {
-                if (recursiveFindPageCss(child)) {
                     return true;
                 }
             }

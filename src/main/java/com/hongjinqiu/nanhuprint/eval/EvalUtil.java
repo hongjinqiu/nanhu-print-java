@@ -116,7 +116,18 @@ public class EvalUtil {
 	 * @return
 	 */
 	public static String getCssAttribute(Object metaObj, String attributeName) {
-		String key = getIdValue(metaObj) + "_" + attributeName;
+		// 构建缓存键，包含页面边框标志以支持不同页面位置的不同 CSS
+		Map<String, Object> env = NanhuprintThreadLocal.getEnv();
+		boolean isFirstLineOfPage = false;
+		boolean isLastLineOfPage = false;
+		if (env != null) {
+			Boolean firstFlag = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_PAGE);
+			Boolean lastFlag = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE);
+			isFirstLineOfPage = firstFlag != null && firstFlag;
+			isLastLineOfPage = lastFlag != null && lastFlag;
+		}
+
+		String key = getIdValue(metaObj) + "_" + attributeName + "_" + isFirstLineOfPage + "_" + isLastLineOfPage;
 		String value = NanhuprintThreadLocal.getCssAttributeMap().get(key);
 		if (value == null) {
 			value = getCssAttributeInternal(metaObj, attributeName);
