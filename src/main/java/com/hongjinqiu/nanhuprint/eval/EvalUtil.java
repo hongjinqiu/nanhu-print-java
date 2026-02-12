@@ -3,7 +3,6 @@ package com.hongjinqiu.nanhuprint.eval;
 import com.hongjinqiu.nanhuprint.NanhuprintConstant;
 import com.hongjinqiu.nanhuprint.NanhuprintException;
 import com.hongjinqiu.nanhuprint.NanhuprintExpressionEvaluator;
-import com.hongjinqiu.nanhuprint.NanhuprintFont;
 import com.hongjinqiu.nanhuprint.NanhuprintThreadLocal;
 import com.hongjinqiu.nanhuprint.eval.custom.ICalcWidth;
 import com.hongjinqiu.nanhuprint.eval.custom.ICustomContent;
@@ -276,7 +275,7 @@ public class EvalUtil {
 
 		// 1. 如果是 tbody 的第一行，尝试使用 firstLineOfTbodyCss 参数
 		if (isFirstLineOfTbody != null && isFirstLineOfTbody) {
-			String firstLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_TBODY_CSS);
+			String firstLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.NANHUPRINT_FIRST_LINE_OF_TBODY_CSS);
 			if (StringUtils.isNotEmpty(firstLineOfTbodyCss)) {
 				cls = firstLineOfTbodyCss;
 			}
@@ -284,7 +283,7 @@ public class EvalUtil {
 
 		// 2. 如果是 tbody 的最后一行，尝试使用 lastLineofTbodyCss 参数
 		if (isLastLineOfTbody != null && isLastLineOfTbody) {
-			String lastLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_TBODY_CSS);
+			String lastLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.NANHUPRINT_LAST_LINE_OF_TBODY_CSS);
 			if (StringUtils.isNotEmpty(lastLineOfTbodyCss)) {
 				cls = lastLineOfTbodyCss;
 			}
@@ -292,7 +291,7 @@ public class EvalUtil {
 
 		// 3. 如果是页面的第一行，尝试使用 firstLineOfPageCss 参数（优先级更高）
 		if (isFirstLineOfPage != null && isFirstLineOfPage) {
-			String firstLineOfPageCss = getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_PAGE_CSS);
+			String firstLineOfPageCss = getParamValue(childLi, NanhuprintConstant.NANHUPRINT_FIRST_LINE_OF_PAGE_CSS);
 			if (StringUtils.isNotEmpty(firstLineOfPageCss)) {
 				cls = firstLineOfPageCss;
 			}
@@ -300,7 +299,7 @@ public class EvalUtil {
 
 		// 4. 如果是页面的最后一行，尝试使用 lastLineOfPageCss 参数（优先级最高）
 		if (isLastLineOfPage != null && isLastLineOfPage) {
-			String lastLineOfPageCss = getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_PAGE_CSS);
+			String lastLineOfPageCss = getParamValue(childLi, NanhuprintConstant.NANHUPRINT_LAST_LINE_OF_PAGE_CSS);
 			if (StringUtils.isNotEmpty(lastLineOfPageCss)) {
 				cls = lastLineOfPageCss;
 			}

@@ -120,13 +120,13 @@ public class NanhuprintConstant {
 
 	public static final String NANHUPRINT_IS_FIRST_LINE_OF_TBODY = "nanhuprint_isFirstLineOfTbody";
 	public static final String NANHUPRINT_IS_LAST_LINE_OF_TBODY = "nanhuprint_isLastLineOfTbody";
-	public static final String FIRST_LINE_OF_TBODY_CSS = "firstLineOfTbodyCss";
-	public static final String LAST_LINE_OF_TBODY_CSS = "lastLineofTbodyCss";
+	public static final String NANHUPRINT_FIRST_LINE_OF_TBODY_CSS = "firstLineOfTbodyCss";
+	public static final String NANHUPRINT_LAST_LINE_OF_TBODY_CSS = "lastLineofTbodyCss";
 
 	public static final String NANHUPRINT_IS_FIRST_LINE_OF_PAGE = "nanhuprint_isFirstLineOfPage";
 	public static final String NANHUPRINT_IS_LAST_LINE_OF_PAGE = "nanhuprint_isLastLineOfPage";
-	public static final String FIRST_LINE_OF_PAGE_CSS = "firstLineOfPageCss";
-	public static final String LAST_LINE_OF_PAGE_CSS = "lastLineOfPageCss";
+	public static final String NANHUPRINT_FIRST_LINE_OF_PAGE_CSS = "firstLineOfPageCss";
+	public static final String NANHUPRINT_LAST_LINE_OF_PAGE_CSS = "lastLineOfPageCss";
 
 	// Document 对象，用于页面边框高度重新计算
 	public static final String NANHUPRINT_DOCUMENT = "nanhuprint_document";

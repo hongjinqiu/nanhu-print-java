@@ -923,7 +923,7 @@ public class ExtendToFillBodyEval extends AbstractEval {
      */
     private boolean recursiveFindFirstLineOfPageCss(Object metaObj) {
         List<Object> childLi = EvalUtil.getChildLi(metaObj);
-        String firstLineOfPageCss = EvalUtil.getParamValue(childLi, NanhuprintConstant.FIRST_LINE_OF_PAGE_CSS);
+        String firstLineOfPageCss = EvalUtil.getParamValue(childLi, NanhuprintConstant.NANHUPRINT_FIRST_LINE_OF_PAGE_CSS);
         if (StringUtils.isNotEmpty(firstLineOfPageCss)) {
             return true;
         }
@@ -974,7 +974,7 @@ public class ExtendToFillBodyEval extends AbstractEval {
      */
     private boolean recursiveFindLastLineOfPageCss(Object metaObj) {
         List<Object> childLi = EvalUtil.getChildLi(metaObj);
-        String lastLineOfPageCss = EvalUtil.getParamValue(childLi, NanhuprintConstant.LAST_LINE_OF_PAGE_CSS);
+        String lastLineOfPageCss = EvalUtil.getParamValue(childLi, NanhuprintConstant.NANHUPRINT_LAST_LINE_OF_PAGE_CSS);
         if (StringUtils.isNotEmpty(lastLineOfPageCss)) {
             return true;
         }
