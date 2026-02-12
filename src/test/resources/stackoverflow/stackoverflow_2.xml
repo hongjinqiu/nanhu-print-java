@@ -116,7 +116,7 @@
                                 <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
                                 <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
                                 <param name="firstLineOfPageCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
-                                <param name="lastLineOfPageCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingLargeAll"></param>
+                                <param name="lastLineOfPageCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
                             </params>
                             <span value="js:item.item+'_' + index" />
                         </td>
@@ -140,10 +140,10 @@
                         </td>
                         <td cls="borderRightSolid textAlignCenter paddingAll">
                             <params>
-                                <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
-                                <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
-                                <param name="firstLineOfPageCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
-                                <param name="lastLineOfPageCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                                <param name="firstLineOfTbodyCss" value="borderRightSolid borderTopSolid textAlignCenter paddingAll"></param>
+                                <param name="lastLineofTbodyCss" value="borderRightSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                                <param name="firstLineOfPageCss" value="borderRightSolid borderTopSolid textAlignCenter paddingAll"></param>
+                                <param name="lastLineOfPageCss" value="borderRightSolid borderBottomSolid textAlignCenter paddingAll"></param>
                             </params>
                             <span value="js:item.summa" />
                         </td>
