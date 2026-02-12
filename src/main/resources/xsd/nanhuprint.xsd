@@ -399,6 +399,10 @@
 								<enumeration value="customContentFormat" />
 								<enumeration value="calcWidth" />
 								<enumeration value="calcWidthTagId" />
+								<enumeration value="firstLineOfTbodyCss" />
+								<enumeration value="lastLineofTbodyCss" />
+								<enumeration value="firstLineOfPageCss" />
+								<enumeration value="lastLineOfPageCss" />
 							</restriction>
 						</simpleType>
 						<simpleType>
