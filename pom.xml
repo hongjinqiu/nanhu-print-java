@@ -6,16 +6,17 @@
 
     <groupId>io.github.hongjinqiu</groupId>
     <artifactId>nanhu-print-java</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.6</version>
 
     <name>${project.artifactId}</name>
     <description>nanhu-print-java is a custom java xml to pdf printing framework, user can configure xml format files, and then call the framework api to generate pdf files.
-The basic functions are:
-1. Fixed header and tail
-2. Watermark
-3. Glove print
-4. Too long text can reduced automatically</description>
+        The basic functions are:
+        1. Fixed header and tail
+        2. Watermark
+        3. Glove print
+        4. Too long text can reduced automatically</description>
     <url>https://github.com/hongjinqiu/nanhu-print-java</url>
+
     <!-- 开源签名证书 -->
     <licenses>
         <license>
@@ -24,6 +25,7 @@ The basic functions are:
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <!-- 仓库信息 -->
     <scm>
         <connection>scm:git@github.com:hongjinqiu/nanhu-print-java.git</connection>
@@ -31,29 +33,18 @@ The basic functions are:
         <url>https://github.com/hongjinqiu/nanhu-print-java</url>
     </scm>
 
-    <!-- 发布项目到 sonatype -->
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    </properties>
 
     <dependencies>
-        <!--itext pdf-->
+        <!-- OpenPDF (iText 5.x fork with LGPL/MPL license) -->
         <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>itextpdf</artifactId>
-            <version>5.5.12</version>
-        </dependency>
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>itext-asian</artifactId>
-            <version>5.2.0</version>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
+            <version>1.0.5</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
@@ -91,6 +82,30 @@ The basic functions are:
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- JAXB dependencies for Java 11+ -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <!-- Nashorn for Java 11+ (deprecated in Java 11, removed in Java 15) -->
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>15.4</version>
         </dependency>
     </dependencies>
 
@@ -143,8 +158,8 @@ The basic functions are:
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -207,17 +222,20 @@ The basic functions are:
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- 使用新的 Central Publisher 插件替代旧的 nexus-staging-maven-plugin -->
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.6.0</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <publishingServerId>ossrh</publishingServerId>
+                    <autoPublish>true</autoPublish>
                 </configuration>
             </plugin>
+
+            <!-- 源码插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -231,10 +249,12 @@ The basic functions are:
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- GPG 签名插件 - 升级到较新版本 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -245,6 +265,8 @@ The basic functions are:
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Javadoc 插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>

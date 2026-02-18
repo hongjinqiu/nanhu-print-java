@@ -1,13 +1,13 @@
 package com.hongjinqiu.nanhuprint.event;
 
 import com.hongjinqiu.nanhuprint.NanhuprintException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfGState;
+import com.lowagie.text.Element;
+import com.lowagie.text.Image;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfGState;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -24,7 +24,7 @@ public class WaterMarkUtil {
 	 * @param canvas
 	 */
 	public static void applyWaterMark(WaterMarkVO waterMarkVO, Rectangle rect, PdfContentByte canvas) {
-//		canvas.setColorFill(pagenumber < 3 ? BaseColor.BLUE : BaseColor.LIGHT_GRAY);
+//		canvas.setColorFill(pagenumber < 3 ? Color.BLUE : Color.LIGHT_GRAY);
 //		canvas.rectangle(rect.getLeft(), rect.getBottom(), rect.getWidth(), rect.getHeight());
 //		canvas.fill();
 

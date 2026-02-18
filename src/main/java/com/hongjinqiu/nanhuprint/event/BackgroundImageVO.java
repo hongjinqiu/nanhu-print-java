@@ -1,6 +1,6 @@
 package com.hongjinqiu.nanhuprint.event;
 
-import com.itextpdf.text.Image;
+import com.lowagie.text.Image;
 
 /**
  * 背景图参数类

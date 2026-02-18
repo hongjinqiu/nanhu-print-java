@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="https://github.com/hongjinqiu/nanhu-print-java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <style>
+        <css name="border1px">
+            <borderLeftStyle js="solid" />
+            <borderLeftWidth js="1px" pdf="0.5" />
+            <borderLeftColor js="black" />
+            <borderTopStyle js="solid" />
+            <borderTopWidth js="1px" pdf="0.5" />
+            <borderTopColor js="black" />
+            <borderRightStyle js="solid" />
+            <borderRightWidth js="1px" pdf="0.5" />
+            <borderRightColor js="black" />
+            <borderBottomStyle js="solid" />
+            <borderBottomWidth js="1px" pdf="0.5" />
+            <borderBottomColor js="black" />
+        </css>
+        <css name="tdPadding">
+            <paddingLeft js="5px" />
+            <paddingRight js="5px" />
+            <paddingTop js="5px" />
+            <paddingBottom js="5px" />
+        </css>
+    </style>
+    <macros>
+    </macros>
+
+    <body pageSizePdf="A4" rotate="false" paddingLeft="50px"
+          paddingRight="50px" paddingTop="30px" paddingBottom="30px" width="685px" height="840px">
+        <params>
+            <param name="extendToFillBody" value="default"></param>
+        </params>
+        <table cellspacing="0" cellpadding="0" width="100%" tableLayout="fixed">
+            <thead showPosition="firstPage">
+                <tr>
+                    <td width="50%" cls="border1px tdPadding">
+                        <span value="Header Column 1" />
+                    </td>
+                    <td width="50%" cls="border1px tdPadding">
+                        <span value="Header Column 2" />
+                    </td>
+                </tr>
+            </thead>
+            <thead showPosition="everyPage">
+                <tr>
+                    <td width="50%" cls="border1px tdPadding">
+                        <span value="Column 1" />
+                    </td>
+                    <td width="50%" cls="border1px tdPadding">
+                        <span value="Column 2" />
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <forEach var="i" itemsJs="Array.apply(null, {length: 50}).map(function(_, i) { return i + 1; })" varStatus="index">
+                    <tr>
+                        <td width="50%" cls="border1px tdPadding">
+                            <span value="js:'Row ' + i + ' - Data 1'" />
+                        </td>
+                        <td width="50%" cls="border1px tdPadding">
+                            <span value="js:'Row ' + i + ' - Data 2'" />
+                        </td>
+                    </tr>
+                </forEach>
+            </tbody>
+            <tloop>
+                <tr>
+                    <td width="50%" cls="border1px tdPadding">
+                        <span value=" " />
+                    </td>
+                    <td width="50%" cls="border1px tdPadding">
+                        <span value=" " />
+                    </td>
+                </tr>
+            </tloop>
+            <tbottom showPosition="everyPage">
+                <tr>
+                    <td width="50%" cls="border1px tdPadding">
+                        <span value="Footer Every Page 1" />
+                    </td>
+                    <td width="50%" cls="border1px tdPadding">
+                        <span value="Footer Every Page 2" />
+                    </td>
+                </tr>
+            </tbottom>
+            <tbottom showPosition="lastPage">
+                <tr>
+                    <td width="50%" cls="border1px tdPadding">
+                        <span value="Footer Last Page 1" />
+                    </td>
+                    <td width="50%" cls="border1px tdPadding">
+                        <span value="Footer Last Page 2" />
+                    </td>
+                </tr>
+            </tbottom>
+        </table>
+    </body>
+</html>

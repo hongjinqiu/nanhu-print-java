@@ -1,7 +1,7 @@
 package com.hongjinqiu.nanhuprint;
 
 import com.hongjinqiu.nanhuprint.eval.EvalUtil;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;

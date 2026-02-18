@@ -1,6 +1,6 @@
 package com.hongjinqiu.nanhuprint.eval;
 
-import com.itextpdf.text.Element;
+import com.lowagie.text.Element;
 import com.hongjinqiu.nanhuprint.NanhuprintExpressionEvaluator;
 import com.hongjinqiu.nanhuprint.model.Macros;
 import com.hongjinqiu.nanhuprint.model.Style;

@@ -262,4 +262,44 @@ public class NanhuprintInterpreterTest {
             nanhuprintInterpreter.interpreterString(filePath, metaString, env);
         }
     }
+
+    @Test
+    public void testStackoverflow3() throws Exception {
+        NanhuprintInterpreter nanhuprintInterpreter = new NanhuprintInterpreter();
+        String filePath = "E:\\hongjinqiu\\tmp\\stackoverflow_3.pdf";
+        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("stackoverflow/stackoverflow_3.json");
+             InputStream xmlIn = this.getClass().getClassLoader().getResourceAsStream("stackoverflow/stackoverflow_3.xml")
+        ) {
+            ByteArrayOutputStream xmlOut = new ByteArrayOutputStream();
+            IOUtils.copyLarge(xmlIn, xmlOut);
+            String metaString = xmlOut.toString("utf8");
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            IOUtils.copyLarge(in, out);
+            String envJson = out.toString("utf8");
+
+            Map<String, Object> env = JSONObject.fromObject(envJson);
+            nanhuprintInterpreter.interpreterString(filePath, metaString, env);
+        }
+    }
+
+    @Test
+    public void testPageBorderTest() throws Exception {
+        NanhuprintInterpreter nanhuprintInterpreter = new NanhuprintInterpreter();
+        String filePath = "E:\\hongjinqiu\\tmp\\pageBorderTest.pdf";
+        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("pageBorderTest/pageBorderTest.json");
+             InputStream xmlIn = this.getClass().getClassLoader().getResourceAsStream("pageBorderTest/pageBorderTest.xml")
+        ) {
+            ByteArrayOutputStream xmlOut = new ByteArrayOutputStream();
+            IOUtils.copyLarge(xmlIn, xmlOut);
+            String metaString = xmlOut.toString("utf8");
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            IOUtils.copyLarge(in, out);
+            String envJson = out.toString("utf8");
+
+            Map<String, Object> env = JSONObject.fromObject(envJson);
+            nanhuprintInterpreter.interpreterString(filePath, metaString, env);
+        }
+    }
 }

@@ -3,7 +3,6 @@ package com.hongjinqiu.nanhuprint.eval;
 import com.hongjinqiu.nanhuprint.NanhuprintConstant;
 import com.hongjinqiu.nanhuprint.NanhuprintException;
 import com.hongjinqiu.nanhuprint.NanhuprintExpressionEvaluator;
-import com.hongjinqiu.nanhuprint.NanhuprintFont;
 import com.hongjinqiu.nanhuprint.NanhuprintThreadLocal;
 import com.hongjinqiu.nanhuprint.eval.custom.ICalcWidth;
 import com.hongjinqiu.nanhuprint.eval.custom.ICustomContent;
@@ -18,9 +17,10 @@ import com.hongjinqiu.nanhuprint.model.Css;
 import com.hongjinqiu.nanhuprint.model.Param;
 import com.hongjinqiu.nanhuprint.model.Params;
 import com.hongjinqiu.nanhuprint.model.Tr;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import java.awt.Color;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsonValueProcessor;
@@ -116,7 +116,18 @@ public class EvalUtil {
 	 * @return
 	 */
 	public static String getCssAttribute(Object metaObj, String attributeName) {
-		String key = getIdValue(metaObj) + "_" + attributeName;
+		// 构建缓存键，包含页面边框标志以支持不同页面位置的不同 CSS
+		Map<String, Object> env = NanhuprintThreadLocal.getEnv();
+		boolean isFirstLineOfPage = false;
+		boolean isLastLineOfPage = false;
+		if (env != null) {
+			Boolean firstFlag = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_PAGE);
+			Boolean lastFlag = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE);
+			isFirstLineOfPage = firstFlag != null && firstFlag;
+			isLastLineOfPage = lastFlag != null && lastFlag;
+		}
+
+		String key = getIdValue(metaObj) + "_" + attributeName + "_" + isFirstLineOfPage + "_" + isLastLineOfPage;
 		String value = NanhuprintThreadLocal.getCssAttributeMap().get(key);
 		if (value == null) {
 			value = getCssAttributeInternal(metaObj, attributeName);
@@ -167,6 +178,10 @@ public class EvalUtil {
 		// 3.从 css 对应的样式中,按空格分割,从右向左查找,
 		if (StringUtils.isEmpty(value)) {
 			String cls = getValueByReflect(metaObj, "cls");
+
+			// 根据行位置（tbody 边界和 page 边界）选择特殊的 CSS
+			cls = selectBorderCssIfNeeded(metaObj, childLi, cls);
+
 			if (StringUtils.isNotEmpty(cls)) {
 				String[] clsLi = cls.split(" +");// 控空格分隔
 				for (int i = clsLi.length - 1; i >= 0; i--) {
@@ -230,6 +245,68 @@ public class EvalUtil {
 			ExplainUtil.addExplain(origMetaObj, "从父标签 " + metaObj.getClass().getName() + " 中查找 " + attributeName + " 值(查找范围:子标签,属性,cls)->" + value);
 		}
 		return value;
+	}
+
+	/**
+	 * 根据行位置（tbody 边界和 page 边界）选择特殊的边框 CSS
+	 * 将所有 tbody 和 page 边框相关的常量和逻辑集中在一个方法中
+	 *
+	 * @param metaObj 元素对象
+	 * @param childLi 子元素列表
+	 * @param defaultCls 默认的 CSS 类名
+	 * @return 选择后的 CSS 类名
+	 */
+	private static String selectBorderCssIfNeeded(Object metaObj, List<Object> childLi, String defaultCls) {
+		String cls = defaultCls;
+
+		// 从 ThreadLocal 获取环境变量
+		Map<String, Object> env = NanhuprintThreadLocal.getEnv();
+		if (env == null) {
+			return cls;
+		}
+
+		// 获取所有边框标志
+		Boolean isFirstLineOfTbody = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_TBODY);
+		Boolean isLastLineOfTbody = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_TBODY);
+		Boolean isFirstLineOfPage = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_FIRST_LINE_OF_PAGE);
+		Boolean isLastLineOfPage = (Boolean) getValueFromNanhuprintEnv(env, NanhuprintConstant.NANHUPRINT_IS_LAST_LINE_OF_PAGE);
+
+		// 优先级：页面边框 > tbody 边框
+		// 按优先级从低到高检查，后面的会覆盖前面的
+
+		// 1. 如果是 tbody 的第一行，尝试使用 firstLineOfTbodyCss 参数
+		if (isFirstLineOfTbody != null && isFirstLineOfTbody) {
+			String firstLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.NANHUPRINT_FIRST_LINE_OF_TBODY_CSS);
+			if (StringUtils.isNotEmpty(firstLineOfTbodyCss)) {
+				cls = firstLineOfTbodyCss;
+			}
+		}
+
+		// 2. 如果是 tbody 的最后一行，尝试使用 lastLineofTbodyCss 参数
+		if (isLastLineOfTbody != null && isLastLineOfTbody) {
+			String lastLineOfTbodyCss = getParamValue(childLi, NanhuprintConstant.NANHUPRINT_LAST_LINE_OF_TBODY_CSS);
+			if (StringUtils.isNotEmpty(lastLineOfTbodyCss)) {
+				cls = lastLineOfTbodyCss;
+			}
+		}
+
+		// 3. 如果是页面的第一行，尝试使用 firstLineOfPageCss 参数（优先级更高）
+		if (isFirstLineOfPage != null && isFirstLineOfPage) {
+			String firstLineOfPageCss = getParamValue(childLi, NanhuprintConstant.NANHUPRINT_FIRST_LINE_OF_PAGE_CSS);
+			if (StringUtils.isNotEmpty(firstLineOfPageCss)) {
+				cls = firstLineOfPageCss;
+			}
+		}
+
+		// 4. 如果是页面的最后一行，尝试使用 lastLineOfPageCss 参数（优先级最高）
+		if (isLastLineOfPage != null && isLastLineOfPage) {
+			String lastLineOfPageCss = getParamValue(childLi, NanhuprintConstant.NANHUPRINT_LAST_LINE_OF_PAGE_CSS);
+			if (StringUtils.isNotEmpty(lastLineOfPageCss)) {
+				cls = lastLineOfPageCss;
+			}
+		}
+
+		return cls;
 	}
 
 	/**
@@ -734,7 +811,7 @@ public class EvalUtil {
 	 * @param color
 	 */
 	private static void setColorToFont(Font font, String color) {
-		BaseColor baseColor = getBaseColor(color);
+		Color baseColor = getBaseColor(color);
 		if (baseColor != null) {
 			font.setColor(baseColor);
 		}
@@ -745,46 +822,46 @@ public class EvalUtil {
 	 *
 	 * @param color
 	 */
-	public static BaseColor getBaseColor(String color) {
+	public static Color getBaseColor(String color) {
 		if (StringUtils.isNotEmpty(color)) {
 			if (color.toLowerCase().equals("white")) {
-				return BaseColor.WHITE;
+				return Color.WHITE;
 			}
 			if (color.toLowerCase().equals("light_gray")) {
-				return BaseColor.LIGHT_GRAY;
+				return Color.lightGray;
 			}
 			if (color.toLowerCase().equals("gray")) {
-				return BaseColor.GRAY;
+				return Color.gray;
 			}
 			if (color.toLowerCase().equals("dark_gray")) {
-				return BaseColor.DARK_GRAY;
+				return Color.darkGray;
 			}
 			if (color.toLowerCase().equals("black")) {
-				return BaseColor.BLACK;
+				return Color.BLACK;
 			}
 			if (color.toLowerCase().equals("red")) {
-				return BaseColor.RED;
+				return Color.RED;
 			}
 			if (color.toLowerCase().equals("pink")) {
-				return BaseColor.PINK;
+				return Color.PINK;
 			}
 			if (color.toLowerCase().equals("orange")) {
-				return BaseColor.ORANGE;
+				return Color.ORANGE;
 			}
 			if (color.toLowerCase().equals("yellow")) {
-				return BaseColor.YELLOW;
+				return Color.YELLOW;
 			}
 			if (color.toLowerCase().equals("green")) {
-				return BaseColor.GREEN;
+				return Color.GREEN;
 			}
 			if (color.toLowerCase().equals("magenta")) {
-				return BaseColor.MAGENTA;
+				return Color.MAGENTA;
 			}
 			if (color.toLowerCase().equals("cyan")) {
-				return BaseColor.CYAN;
+				return Color.CYAN;
 			}
 			if (color.toLowerCase().equals("blue")) {
-				return BaseColor.BLUE;
+				return Color.BLUE;
 			}
 			if (color.startsWith("#")) {
 				color = color.substring(1);
@@ -796,7 +873,7 @@ public class EvalUtil {
 				int red = Integer.parseInt(str2, 16);
 				int green = Integer.parseInt(str3, 16);
 				int blue = Integer.parseInt(str4, 16);
-				return new BaseColor(red, green, blue);
+				return new Color(red, green, blue);
 			}
 		}
 		return null;
@@ -1514,7 +1591,7 @@ public class EvalUtil {
 			if (width > 0) {
 				String cellText = cell.getPhrase().getContent();
 //				Font font = cell.getPhrase().getFont();// 当文本内容为 6.00% 时,多了一个 % 号,此时,这行代码的返回值,会丢掉 fontStyle,变成不加粗,因此,直接 getChunk,
-				Font font = cell.getPhrase().getChunks().get(0).getFont();
+				Font font = cell.getPhrase().getFont();// OpenPDF: 使用 Phrase 的 getFont() 方法
 				float fontSize = font.getSize();
 				if (fontSize == Font.UNDEFINED) {
 					fontSize = 20;
