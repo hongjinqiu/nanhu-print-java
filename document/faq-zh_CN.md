@@ -5,8 +5,8 @@
 git 地址: https://github.com/hongjinqiu/nanhu-print-java-demo.git
 
 ```
-docker pull hjq20021984/nanhu-print-java-demo:1.0.4
-docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:1.0.4
+docker pull hjq20021984/nanhu-print-java-demo:1.0.6
+docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:1.0.6
 ```
 
 docker 运行起来之后, 访问 `http://localhost:8891`

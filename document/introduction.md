@@ -247,3 +247,33 @@ The formatting of these fields can also be implemented through the configuration
 <span value="js:item.item_price" format="unitPrice"/>
 <span value="js:item.item_price" format="amt"/>
 ```
+
+## 3.11. Border control for table pagination
+
+When printing paginated tables, you may need to apply specific border styles to the first/last row of table tbody, or the first/last row of each page.<br><br>
+Nanhu-print-java framework provides four parameters to achieve this functionality, listed in order of priority from low to high:<br><br>
+
+1. `firstLineOfTbodyCss`: Applied to the first row of tbody
+2. `lastLineofTbodyCss`: Applied to the last row of tbody
+3. `firstLineOfPageCss`: Applied to the first row of each page (higher priority than tbody borders)
+4. `lastLineOfPageCss`: Applied to the last row of each page (highest priority)
+
+Configuration example:<br>
+
+```xml
+<tbody>
+    <forEach var="item" itemsJs="order.itemLi" varStatus="index">
+        <tr>
+            <td cls="borderLeftSolid textAlignCenter paddingAll">
+                <params>
+                    <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                    <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                    <param name="firstLineOfPageCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                    <param name="lastLineOfPageCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                </params>
+                <span value="js:item.name" />
+            </td>
+        </tr>
+    </forEach>
+</tbody>
+```

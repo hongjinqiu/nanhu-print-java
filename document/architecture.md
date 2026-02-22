@@ -64,7 +64,7 @@ In your application, you can use the functions of the Nanhu-print-java framework
 <dependency>
     <groupId>io.github.hongjinqiu</groupId>
     <artifactId>nanhu-print-java</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.6</version>
 </dependency>
 ```
 
@@ -78,8 +78,8 @@ Users can pull the code of this project and modify it slightly to form their own
 The docker pull and run method of nanhu-print-java-demo project is as follows:
 
 ```
-docker pull hjq20021984/nanhu-print-java-demo:1.0.4
-docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:1.0.4
+docker pull hjq20021984/nanhu-print-java-demo:1.0.6
+docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:1.0.6
 ```
 
 then visit: `http://localhost:8891`

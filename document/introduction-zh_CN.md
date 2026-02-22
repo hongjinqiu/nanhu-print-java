@@ -216,3 +216,32 @@ Nanhu-print-java 框架, 支持的动态标签有: if, forEach, macroRef, set, M
 <span value="js:item.item_price" format="unitPrice"/>
 <span value="js:item.item_price" format="amt"/>
 ```
+
+## 3.11. 表格分页时的边框控制
+在表格分页打印时, 可能需要给表格 tbody 的第一行/最后一行, 或者每页的第一行/最后一行添加特定的边框样式。<br>
+Nanhu-print-java 框架提供了四个参数来实现这个功能, 这些参数按优先级从低到高排列:<br>
+
+1. `firstLineOfTbodyCss`: 应用于表格 tbody 的第一行
+2. `lastLineofTbodyCss`: 应用于表格 tbody 的最后一行
+3. `firstLineOfPageCss`: 应用于每页的第一行 (优先级高于表格 tbody 边框)
+4. `lastLineOfPageCss`: 应用于每页的最后一行 (优先级最高)
+
+配置示例:<br>
+
+```xml
+<tbody>
+    <forEach var="item" itemsJs="order.itemLi" varStatus="index">
+        <tr>
+            <td cls="borderLeftSolid textAlignCenter paddingAll">
+                <params>
+                    <param name="firstLineOfTbodyCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                    <param name="lastLineofTbodyCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                    <param name="firstLineOfPageCss" value="borderLeftSolid borderTopSolid textAlignCenter paddingAll"></param>
+                    <param name="lastLineOfPageCss" value="borderLeftSolid borderBottomSolid textAlignCenter paddingAll"></param>
+                </params>
+                <span value="js:item.name" />
+            </td>
+        </tr>
+    </forEach>
+</tbody>
+```
