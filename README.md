@@ -1,12 +1,12 @@
 # What is nanhu-print-java
 
-nanhu-print-java is a xml to pdf generation framework implemented in java language. 
+nanhu-print-java is a xml to pdf generation framework implemented in java language.
 
 Users can configure a file in xml format and prepare the json data format they want to print.
 
 Then call the nanhu-print-java framework API to complete the generation of a PDF file.
 
-The nanhu-print-java framework calls iText to generate PDF.
+The nanhu-print-java framework calls OpenPDF to generate PDF.
 
 nanhu-print-java can help users complete these functions that are common in enterprise applications and difficult to achieve with direct code programming by configuring xml:
 
@@ -15,6 +15,7 @@ nanhu-print-java can help users complete these functions that are common in ente
 - Print with template(use an image as background)
 - Watermark
 - Alternate printing of different backgrounds in the table rows
+- Border control for table pagination
 
 Cooperating with the nanhu-print-js framework on the web front end, the pdf printing format can be customized.
 
@@ -35,7 +36,7 @@ maven configuration
 <dependency>
     <groupId>io.github.hongjinqiu</groupId>
     <artifactId>nanhu-print-java</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.6</version>
 </dependency>
 ```
 
@@ -43,8 +44,8 @@ Next, refer to [Quick Start](document/quick_start.md) to implement your first na
 
 Demo project docker address:
 ```
-docker pull hjq20021984/nanhu-print-java-demo:1.0.4
-docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:1.0.4
+docker pull hjq20021984/nanhu-print-java-demo:1.0.6
+docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-print-java-demo:1.0.6
 ```
 
 When docker is running, visit `http://localhost:8891`
