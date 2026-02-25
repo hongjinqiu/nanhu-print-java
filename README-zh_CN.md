@@ -50,3 +50,16 @@ docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-pri
 docker 运行起来之后, 访问 `http://localhost:8891`
 
 开发视频可参考:`https://youtu.be/vdTSc8rXr9M`
+
+## Claude Code Skill
+
+如果你使用 [Claude Code](https://claude.ai/code), 可以安装 [nanhu-print-java-skills](https://github.com/hongjinqiu/nanhu-print-java-skills) 来获取更精准的 XML 模板生成和 API 使用说明。
+
+安装方法:
+
+```bash
+git clone https://github.com/hongjinqiu/nanhu-print-java-skills.git
+cp -r nanhu-print-java-skills/claude/nanhu-pdf ~/.claude/skills/
+```
+
+安装后在 Claude Code 中输入 `/nanhu-pdf` 即可激活, Claude 将根据内置的 XML 模板语法、CSS 规则和 Java API 参考, 为你生成准确的 nanhu-print-java 代码。

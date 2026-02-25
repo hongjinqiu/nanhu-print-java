@@ -51,3 +51,16 @@ docker run -d -p 8891:8891 --name my-nanhu-print-java-demo hjq20021984/nanhu-pri
 When docker is running, visit `http://localhost:8891`
 
 Development video can refer to: `https://youtu.be/vdTSc8rXr9M`
+
+## Claude Code Skill
+
+If you use [Claude Code](https://claude.ai/code), you can install [nanhu-print-java-skills](https://github.com/hongjinqiu/nanhu-print-java-skills) to get more accurate XML template generation and API usage guidance.
+
+Installation:
+
+```bash
+git clone https://github.com/hongjinqiu/nanhu-print-java-skills.git
+cp -r nanhu-print-java-skills/claude/nanhu-pdf ~/.claude/skills/
+```
+
+After installation, type `/nanhu-pdf` in Claude Code to activate the skill. Claude will generate accurate nanhu-print-java code based on the built-in XML template syntax, CSS rules, and Java API reference.
